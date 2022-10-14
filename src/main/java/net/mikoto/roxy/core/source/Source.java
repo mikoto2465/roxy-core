@@ -1,28 +1,30 @@
 package net.mikoto.roxy.core.source;
 
+import java.util.Iterator;
+
 /**
  * @author mikoto
  * @date 2022/6/18 17:00
  */
 public interface Source<S> {
     /**
-     * Add a server.
+     * Add a source object.
      *
-     * @param server The source.
+     * @param sourceObject The source object.
      */
-    void addServer(S server);
+    void addSourceObject(S sourceObject);
 
     /**
-     * Get the servers.
+     * Get the source objects.
      *
-     * @return The servers.
+     * @return The source objects.
      */
-    Object[] getServers();
+    Iterator<S> getIterator();
 
     /**
-     * Get the server.
+     * Get the source object.
      *
-     * @return The server.
+     * @return The source object.
      */
-    S getServer();
+    S getSourceObject();
 }

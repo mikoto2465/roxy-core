@@ -1,6 +1,6 @@
 package net.mikoto.roxy.core.source;
 
-import net.mikoto.pixiv.core.model.server.CurrentWeighted;
+import net.mikoto.roxy.core.weight.CurrentWeighted;
 
 import java.util.HashSet;
 import java.util.Iterator;
@@ -11,37 +11,39 @@ import java.util.Set;
  * @date 2022/6/12 3:47
  */
 public class SmoothWeightedSource<S extends CurrentWeighted> implements Source<S> {
-    private final Set<S> SOURCE_SET = new HashSet<>();
+    private final Set<S> SOURCE_OBJECT_SET = new HashSet<>();
 
     /**
-     * Add a server.
+     * Add a source object.
      *
-     * @param server The server.
+     * @param sourceObject The source object.
      */
     @Override
-    public void addServer(S server) {
-        SOURCE_SET.add(server);
+    public void addSourceObject(S sourceObject) {
+        SOURCE_OBJECT_SET.add(sourceObject);
     }
 
     /**
-     * Get the server.
+     * Get the source objects.
      *
-     * @return The server.
+     * @return The source objects.
      */
     @Override
-    public Object[] getServers() {
-        return SOURCE_SET.toArray();
+    public Iterator<S> getIterator() {
+        return SOURCE_OBJECT_SET.iterator();
     }
 
     /**
-     * Get the server.
+     * Get the source object.
+     * The realization of the Smooth Weighted Round Robin Algorithm.
+     * If the source object set is null it will return null!
      *
-     * @return The server.
+     * @return The source.
      */
     @Override
-    public S getServer() {
-        if (!SOURCE_SET.isEmpty()) {
-            Iterator<S> sourceSetIterator = SOURCE_SET.iterator();
+    public S getSourceObject() {
+        if (!SOURCE_OBJECT_SET.isEmpty()) {
+            Iterator<S> sourceSetIterator = SOURCE_OBJECT_SET.iterator();
 
             S resultSource = sourceSetIterator.next();
             resultSource.setCurrentWeight(resultSource.getWeight() + resultSource.getCurrentWeight());

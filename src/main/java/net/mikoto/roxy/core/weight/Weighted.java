@@ -1,4 +1,4 @@
-package net.mikoto.roxy.core.sever;
+package net.mikoto.roxy.core.weight;
 
 /**
  * @author mikoto
