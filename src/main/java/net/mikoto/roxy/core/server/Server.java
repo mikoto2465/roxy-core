@@ -5,4 +5,5 @@ package net.mikoto.roxy.core.server;
  * @date 2022/6/18 17:51
  */
 public interface Server {
+    String getAddress();
 }
