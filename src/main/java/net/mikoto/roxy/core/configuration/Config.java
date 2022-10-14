@@ -14,6 +14,7 @@ import org.springframework.context.annotation.Configuration;
 @ConfigurationProperties(prefix = "roxy")
 @Getter
 @Setter
-public class ObserverConfig {
+public class Config {
+    private boolean isLogging = true;
     private String[] observers = new String[]{"RoxyServerObject"};
 }
