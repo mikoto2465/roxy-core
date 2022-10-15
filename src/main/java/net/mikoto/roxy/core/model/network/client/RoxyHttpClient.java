@@ -1,4 +1,4 @@
-package net.mikoto.roxy.core.client;
+package net.mikoto.roxy.core.model.network.client;
 
 import com.dtflys.forest.annotation.Get;
 import com.dtflys.forest.annotation.Header;

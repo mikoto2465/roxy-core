@@ -1,4 +1,4 @@
-package net.mikoto.roxy.core.configuration;
+package net.mikoto.roxy.core.model;
 
 /**
  * @author mikoto
@@ -6,5 +6,5 @@ package net.mikoto.roxy.core.configuration;
  * Create for core
  */
 public class ModelConfig {
-    
+
 }

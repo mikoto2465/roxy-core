@@ -1,4 +1,4 @@
-package net.mikoto.roxy.core.configuration;
+package net.mikoto.roxy.core.model;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -1,7 +1,7 @@
 package net.mikoto.roxy.core.manager;
 
 import net.mikoto.roxy.core.annotation.Algorithm;
-import net.mikoto.roxy.core.configuration.Config;
+import net.mikoto.roxy.core.model.Config;
 import org.apache.commons.lang3.tuple.Pair;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +41,7 @@ public class AlgorithmManager extends Manager<Class<?>> {
 
     @NotNull
     @SafeVarargs
-    public final Object getAlgorithmByName(String algorithmName, @NotNull Pair<Class<?>, Object>... params) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+    public final Object createAlgorithmByName(String algorithmName, @NotNull Pair<Class<?>, Object>... params) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
         Class<?> algorithmClass = ALGORITHM_MAP.get(algorithmName);
 
         Set<Class<?>> paramsTypes = new HashSet<>();

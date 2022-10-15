@@ -3,9 +3,8 @@ package net.mikoto.roxy.core.observer.impl;
 import lombok.extern.log4j.Log4j2;
 import net.mikoto.roxy.core.algorithm.Algorithm;
 import net.mikoto.roxy.core.algorithm.Statue;
-import net.mikoto.roxy.core.configuration.Config;
+import net.mikoto.roxy.core.model.Config;
 import net.mikoto.roxy.core.observer.Observer;
-import net.mikoto.roxy.core.model.network.server.Server;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
