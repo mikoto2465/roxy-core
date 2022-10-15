@@ -1,4 +1,4 @@
-package net.mikoto.pixiv.core.util;
+package net.mikoto.roxy.core.util;
 
 import org.jetbrains.annotations.NotNull;
 

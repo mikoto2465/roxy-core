@@ -1,6 +1,5 @@
 package net.mikoto.pixiv.core.util;
 
-import net.mikoto.pixiv.core.annotation.ForbiddenField;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.annotation.Annotation;
@@ -12,6 +11,10 @@ import java.util.List;
  * @author mikoto
  */
 public final class ReflectionUtil {
+    public static List<Class<?>> getClassesByInterface(String packageName, Class<?> interfaceClass) {
+
+    }
+
     /**
      * Get the forbidden field list in the class.
      *

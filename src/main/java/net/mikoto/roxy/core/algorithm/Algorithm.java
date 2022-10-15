@@ -5,6 +5,5 @@ package net.mikoto.roxy.core.algorithm;
  * @date 2022/10/15
  * Create for core
  */
-public interface RouteParamsGenerateAlgorithm extends Algorithm {
-    String getParam();
+public interface Algorithm {
 }
