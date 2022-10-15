@@ -1,4 +1,4 @@
-package net.mikoto.roxy.core.server;
+package net.mikoto.roxy.core.model.network.server;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

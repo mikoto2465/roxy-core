@@ -1,6 +1,6 @@
-package net.mikoto.roxy.core.source;
+package net.mikoto.roxy.core.model.network.source;
 
-import net.mikoto.roxy.core.weight.CurrentWeighted;
+import net.mikoto.roxy.core.model.network.weight.CurrentWeighted;
 
 import java.util.HashSet;
 import java.util.Iterator;

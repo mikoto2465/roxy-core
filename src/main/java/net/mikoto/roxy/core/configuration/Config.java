@@ -16,5 +16,6 @@ import org.springframework.context.annotation.Configuration;
 @Setter
 public class Config {
     private boolean isLogging = true;
-    private String[] observers = new String[]{"RoxyServerObject"};
+    private String[] observers = new String[]{"RoxyServerObserver"};
+    private String modelPath = "/model";
 }

@@ -1,7 +1,6 @@
-package net.mikoto.roxy.core.source;
+package net.mikoto.roxy.core.model.network.source;
 
 import java.util.Iterator;
-import java.util.Set;
 
 /**
  * @author mikoto

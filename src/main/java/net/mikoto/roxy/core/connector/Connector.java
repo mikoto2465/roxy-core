@@ -5,5 +5,6 @@ package net.mikoto.roxy.core.connector;
  * @date 2022/10/15
  * Create for core
  */
-public interface Connector {
+public interface Connector<S, ID> {
+     S doPatch(ID theIdOf);
 }

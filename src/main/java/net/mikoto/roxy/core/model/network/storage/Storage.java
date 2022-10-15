@@ -1,4 +1,4 @@
-package net.mikoto.roxy.core.storage;
+package net.mikoto.roxy.core.model.network.storage;
 
 /**
  * @author mikoto
