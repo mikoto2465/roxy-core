@@ -6,5 +6,5 @@ package net.mikoto.roxy.core.observer;
  * Create for core
  */
 public interface Observer<S> {
-    void notify(S subject);
+    void notify(S subject, Object... objects);
 }

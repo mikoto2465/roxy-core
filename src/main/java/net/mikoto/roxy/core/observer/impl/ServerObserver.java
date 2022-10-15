@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
  * @date 2022/10/15
  * Create for core
  */
-@Component("RoxyServerObject")
+@Component("RoxyServerObserver")
 @Log4j2
 public class ServerObserver implements Observer<Server> {
     private final Config config;
@@ -23,9 +23,9 @@ public class ServerObserver implements Observer<Server> {
     }
 
     @Override
-    public void notify(Server subject) {
+    public void notify(Server subject, Object... objects) {
         if (config.isLogging()) {
-            log.info("[Connect] " + subject.getAddress());
+            log.info("Connect to -> " + subject.getAddress());
         }
     }
 }

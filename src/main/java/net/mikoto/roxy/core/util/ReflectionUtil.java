@@ -1,40 +1,23 @@
-package net.mikoto.pixiv.core.util;
+package net.mikoto.roxy.core.util;
 
-import org.jetbrains.annotations.NotNull;
+import org.reflections.Reflections;
 
 import java.lang.annotation.Annotation;
-import java.lang.reflect.Field;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.Set;
 
 /**
  * @author mikoto
  */
 public final class ReflectionUtil {
-    public static List<Class<?>> getClassesByInterface(String packageName, Class<?> interfaceClass) {
-
-    }
-
     /**
-     * Get the forbidden field list in the class.
+     * Get the classes by the annotation.
      *
-     * @param clazz The class you need to check.
-     * @return The forbidden field list.
+     * @param packageName The package name.
+     * @param annotationClass The annotation class.
+     * @return The classes.
      */
-    public static @NotNull List<String> getForbiddenField(@NotNull Class<?> clazz) {
-        List<String> resultString = new LinkedList<>();
-        Field[] fields = clazz.getDeclaredFields();
-        for (Field field :
-                fields) {
-            Annotation[] annotations = field.getAnnotations();
-            for (Annotation annotation :
-                    annotations) {
-                if (annotation instanceof ForbiddenField) {
-                    resultString.add(field.getName());
-                    break;
-                }
-            }
-        }
-        return resultString;
+    public static Set<Class<?>> getClassesByAnnotation(String packageName, Class<? extends Annotation> annotationClass) {
+        Reflections reflection = new Reflections(packageName);
+        return reflection.getTypesAnnotatedWith(annotationClass);
     }
 }

@@ -18,4 +18,5 @@ public class Config {
     private boolean isLogging = true;
     private String[] observers = new String[]{"RoxyServerObserver"};
     private String modelPath = "/model";
+    private String[] algorithmPackages = new String[]{"net.mikoto.roxy.core.algorithm"};
 }

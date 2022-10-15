@@ -1,6 +1,7 @@
 package net.mikoto.roxy.core.algorithm.impl;
 
 import net.mikoto.roxy.core.algorithm.RouteParamsGenerateAlgorithm;
+import net.mikoto.roxy.core.annotation.Algorithm;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -11,6 +12,7 @@ import java.util.List;
  * @date 2022/10/15
  * Create for core
  */
+@Algorithm("ListForeachAlgorithm")
 public class ListForeachAlgorithm implements RouteParamsGenerateAlgorithm {
     private final List<String> routeValues;
     private int currentIndex = 0;
