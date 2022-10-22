@@ -13,7 +13,7 @@ import java.util.List;
  * Create for core
  */
 @AlgorithmImpl(
-        value = "RoxyStringListForeachAlgorithm",
+        value = "RoxyForeachStringListAlgorithm",
         constructorParamsContainers = {
                 ContainerType.LIST
         }

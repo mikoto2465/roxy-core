@@ -9,7 +9,7 @@ import net.mikoto.roxy.core.model.network.server.Server;
  * Create for core
  */
 @AlgorithmInterface(
-        value = "RoxyRouteServerAlgorithm",
+        value = "RoxyServerAlgorithm",
         resultClass = Server.class
 )
 public interface ServerAlgorithm {

@@ -27,7 +27,7 @@ class CoreApplicationTests {
 
     @Test
     void contextLoads() {
-        System.out.println(Arrays.toString(modelManager.getRawModelJsons()));
+        algorithmManager.createAlgorithmByName()
     }
 
 }
