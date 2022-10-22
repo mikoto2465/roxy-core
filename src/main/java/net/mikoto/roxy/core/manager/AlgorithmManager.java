@@ -41,20 +41,24 @@ public class AlgorithmManager {
             for (Class<?> algorithmInterfaceClass :
                     algorithmInterfaceClasses) {
                 AlgorithmInterface annotation = algorithmInterfaceClass.getAnnotation(AlgorithmInterface.class);
-                String algorithmInterfaceName = annotation.value();
-                ALGORITHM_INTERFACE_INFO.put(algorithmInterfaceName, annotation);
-                ALGORITHM_INTERFACE_CLASS.put(algorithmInterfaceName, algorithmInterfaceClass);
-                log.info("[Roxy] Found algorithm interface -> " + algorithmInterfaceName);
+                if (annotation != null) {
+                    String algorithmInterfaceName = annotation.value();
+                    ALGORITHM_INTERFACE_INFO.put(algorithmInterfaceName, annotation);
+                    ALGORITHM_INTERFACE_CLASS.put(algorithmInterfaceName, algorithmInterfaceClass);
+                    log.info("[Roxy] Found algorithm interface -> " + algorithmInterfaceName);
+                }
             }
 
             Set<Class<?>> algorithmImplClasses = getClassesByAnnotation(algorithmPackage, AlgorithmImpl.class);
             for (Class<?> algorithmImplClass :
                     algorithmImplClasses) {
                 AlgorithmImpl annotation = algorithmImplClass.getAnnotation(AlgorithmImpl.class);
-                String algorithmInterfaceName = annotation.value();
-                ALGORITHM_IMPL_INFO.put(algorithmInterfaceName, annotation);
-                ALGORITHM_IMPL_CLASS.put(algorithmInterfaceName, algorithmImplClass);
-                log.info("[Roxy] Found algorithm impl -> " + algorithmInterfaceName);
+                if (annotation != null) {
+                    String algorithmInterfaceName = annotation.value();
+                    ALGORITHM_IMPL_INFO.put(algorithmInterfaceName, annotation);
+                    ALGORITHM_IMPL_CLASS.put(algorithmInterfaceName, algorithmImplClass);
+                    log.info("[Roxy] Found algorithm impl -> " + algorithmInterfaceName);
+                }
             }
         }
     }
