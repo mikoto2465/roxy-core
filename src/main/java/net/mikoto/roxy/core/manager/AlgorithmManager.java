@@ -4,16 +4,13 @@ import lombok.extern.log4j.Log4j2;
 import net.mikoto.roxy.core.annotation.AlgorithmImpl;
 import net.mikoto.roxy.core.annotation.AlgorithmInterface;
 import net.mikoto.roxy.core.model.Config;
-import org.apache.commons.lang3.tuple.Pair;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -65,7 +62,7 @@ public class AlgorithmManager {
         Class<?> algorithmClass = ALGORITHM_IMPL_CLASS.get(algorithmName);
         AlgorithmImpl algorithm = ALGORITHM_IMPL_INFO.get(algorithmName);
 
-        Constructor<?> constructor = algorithmClass.getConstructor(algorithm.constructorClasses());
+        Constructor<?> constructor = algorithmClass.getConstructor(algorithm.constructorParamsClasses());
         return constructor.newInstance(params);
     }
 }

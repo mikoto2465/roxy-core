@@ -2,10 +2,11 @@ package net.mikoto.roxy.core.algorithm;
 
 /**
  * @author mikoto
- * @date 2022/10/15
+ * @date 2022/10/23
  * Create for core
  */
-public enum Statue {
-    Found,
-    Created
+public enum ContainerType {
+    LIST,
+    MAP,
+    NO_CONTAINER
 }

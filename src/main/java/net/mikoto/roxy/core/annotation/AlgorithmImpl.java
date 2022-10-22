@@ -1,5 +1,7 @@
 package net.mikoto.roxy.core.annotation;
 
+import net.mikoto.roxy.core.algorithm.ContainerType;
+
 import java.lang.annotation.*;
 
 /**
@@ -18,5 +20,7 @@ public @interface AlgorithmImpl {
      */
     String value();
 
-    Class<?>[] constructorClasses() default {};
+    Class<?>[] constructorParamsClasses() default {String.class};
+
+    ContainerType[] constructorParamsContainers() default {ContainerType.NO_CONTAINER};
 }

@@ -3,6 +3,7 @@ package net.mikoto.roxy.core.manager;
 import com.alibaba.fastjson2.JSONObject;
 import lombok.extern.log4j.Log4j2;
 import net.mikoto.roxy.core.model.Config;
+import net.mikoto.roxy.core.model.RoxyModelConfig;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -22,7 +23,7 @@ import static net.mikoto.roxy.core.util.FileUtil.createDir;
 @Component("RoxyModelManager")
 @Log4j2
 public class ModelManager {
-    private static final Map<String, JSONObject> rawModelJsonMap = new HashMap<>();
+    private static final Map<String, RoxyModelConfig> rawModelConfigMap = new HashMap<>();
 
     @Autowired
     public ModelManager(@NotNull Config config) throws IOException {
@@ -50,19 +51,11 @@ public class ModelManager {
 
                 JSONObject jsonObject = JSONObject.parseObject(stringBuilder.toString());
                 String modelName = file.getName().replace(config.getModelSuffix(), "");
-                rawModelJsonMap.put(modelName, jsonObject);
+                rawModelConfigMap.put(modelName, jsonObject.to(RoxyModelConfig.class));
                 log.info("[Roxy] Found model -> " + modelName);
             }
         } else {
             log.warn("[Roxy] No model was found");
         }
-    }
-
-    public JSONObject getRawModelJson(String name) {
-        return rawModelJsonMap.get(name);
-    }
-
-    public JSONObject[] getRawModelJsons() {
-        return rawModelJsonMap.values().toArray(new JSONObject[0]);
     }
 }

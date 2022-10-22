@@ -8,9 +8,9 @@ import net.mikoto.roxy.core.annotation.AlgorithmInterface;
  * Create for core
  */
 @AlgorithmInterface(
-        value = "RoxyRouteParamsAlgorithm",
+        value = "RoxyStringAlgorithm",
         resultClass = String.class
 )
-public interface RouteParamsAlgorithm {
-    String getParam();
+public interface StringAlgorithm {
+    String run();
 }
