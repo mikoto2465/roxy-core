@@ -1,12 +1,15 @@
 package net.mikoto.roxy.core.manager;
 
+import lombok.extern.log4j.Log4j2;
 import net.mikoto.roxy.core.annotation.AlgorithmImpl;
+import net.mikoto.roxy.core.annotation.AlgorithmInterface;
 import net.mikoto.roxy.core.model.Config;
 import org.apache.commons.lang3.tuple.Pair;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
@@ -22,36 +25,47 @@ import static net.mikoto.roxy.core.util.ReflectionUtil.getClassesByAnnotation;
  * Create for core
  */
 @Component("RoxyAlgorithmManager")
-public class AlgorithmManager extends Manager {
-    private static final Map<String, Class<?>> ALGORITHM_MAP = new HashMap<>();
+@Log4j2
+public class AlgorithmManager {
+    private static final Map<String, AlgorithmInterface> ALGORITHM_INTERFACE_INFO = new HashMap<>();
+    private static final Map<String, Class<?>> ALGORITHM_INTERFACE_CLASS = new HashMap<>();
+
+    private static final Map<String, AlgorithmImpl> ALGORITHM_IMPL_INFO = new HashMap<>();
+    private static final Map<String, Class<?>> ALGORITHM_IMPL_CLASS = new HashMap<>();
 
     @Autowired
     public AlgorithmManager(@NotNull Config config) {
+        // Find algorithm interface class.
         for (String algorithmPackage :
                 config.getAlgorithmPackages()) {
-            Set<Class<?>> algorithmClasses = getClassesByAnnotation(algorithmPackage, AlgorithmImpl.class);
-            for (Class<?> algorithmClass :
-                    algorithmClasses) {
-                String algorithmName = algorithmClass.getAnnotation(AlgorithmImpl.class).value();
-                ALGORITHM_MAP.put(algorithmName, algorithmClass);
-                notifyObservers(algorithmClass);
+            Set<Class<?>> algorithmInterfaceClasses = getClassesByAnnotation(algorithmPackage, AlgorithmInterface.class);
+            for (Class<?> algorithmInterfaceClass :
+                    algorithmInterfaceClasses) {
+                AlgorithmInterface annotation = algorithmInterfaceClass.getAnnotation(AlgorithmInterface.class);
+                String algorithmInterfaceName = annotation.value();
+                ALGORITHM_INTERFACE_INFO.put(algorithmInterfaceName, annotation);
+                ALGORITHM_INTERFACE_CLASS.put(algorithmInterfaceName, algorithmInterfaceClass);
+                log.info("[Roxy] Found algorithm interface -> " + algorithmInterfaceName);
+            }
+
+            Set<Class<?>> algorithmImplClasses = getClassesByAnnotation(algorithmPackage, AlgorithmImpl.class);
+            for (Class<?> algorithmImplClass :
+                    algorithmImplClasses) {
+                AlgorithmImpl annotation = algorithmImplClass.getAnnotation(AlgorithmImpl.class);
+                String algorithmInterfaceName = annotation.value();
+                ALGORITHM_IMPL_INFO.put(algorithmInterfaceName, annotation);
+                ALGORITHM_IMPL_CLASS.put(algorithmInterfaceName, algorithmImplClass);
+                log.info("[Roxy] Found algorithm impl -> " + algorithmInterfaceName);
             }
         }
     }
 
     @NotNull
-    @SafeVarargs
-    public final Object createAlgorithmByName(String algorithmName, @NotNull Pair<Class<?>, Object>... params) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
-        Class<?> algorithmClass = ALGORITHM_MAP.get(algorithmName);
+    public final Object createAlgorithmByName(String algorithmName, @NotNull Object... params) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+        Class<?> algorithmClass = ALGORITHM_IMPL_CLASS.get(algorithmName);
+        AlgorithmImpl algorithm = ALGORITHM_IMPL_INFO.get(algorithmName);
 
-        Set<Class<?>> paramsTypes = new HashSet<>();
-        Set<Object> paramsValues = new HashSet<>();
-        for (Pair<Class<?>, Object> param : params){
-            paramsTypes.add(param.getLeft());
-            paramsValues.add(param.getRight());
-        }
-
-        Constructor<?> constructor = algorithmClass.getConstructor(paramsTypes.toArray(new Class<?>[0]));
-        return constructor.newInstance(paramsValues.toArray(new Object[0]));
+        Constructor<?> constructor = algorithmClass.getConstructor(algorithm.constructorClasses());
+        return constructor.newInstance(params);
     }
 }

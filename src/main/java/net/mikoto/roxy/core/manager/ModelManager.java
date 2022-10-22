@@ -49,8 +49,9 @@ public class ModelManager {
                 }
 
                 JSONObject jsonObject = JSONObject.parseObject(stringBuilder.toString());
-                rawModelJsonMap.put(file.getName().replace(config.getModelSuffix(), ""), jsonObject);
-                log.info("[Roxy] Found model: " + file.getName());
+                String modelName = file.getName().replace(config.getModelSuffix(), "");
+                rawModelJsonMap.put(modelName, jsonObject);
+                log.info("[Roxy] Found model -> " + modelName);
             }
         } else {
             log.warn("[Roxy] No model was found");
