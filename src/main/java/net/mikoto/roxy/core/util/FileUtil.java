@@ -17,7 +17,7 @@ public final class FileUtil {
      * @param dirName The name of the dir.
      */
     public static void createDir(@NotNull String dirName) {
-        File dir = new File(dirName);
+        File dir = new File(System.getProperty("user.dir") + dirName);
         if (!dir.exists()) {
             if (!dir.mkdir()) {
                 System.err.println("Can't create dir");

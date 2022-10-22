@@ -1,6 +1,6 @@
 package net.mikoto.roxy.core.manager;
 
-import net.mikoto.roxy.core.annotation.Algorithm;
+import net.mikoto.roxy.core.annotation.AlgorithmImpl;
 import net.mikoto.roxy.core.model.Config;
 import org.apache.commons.lang3.tuple.Pair;
 import org.jetbrains.annotations.NotNull;
@@ -22,17 +22,17 @@ import static net.mikoto.roxy.core.util.ReflectionUtil.getClassesByAnnotation;
  * Create for core
  */
 @Component("RoxyAlgorithmManager")
-public class AlgorithmManager extends Manager<Class<?>> {
+public class AlgorithmManager extends Manager {
     private static final Map<String, Class<?>> ALGORITHM_MAP = new HashMap<>();
 
     @Autowired
     public AlgorithmManager(@NotNull Config config) {
         for (String algorithmPackage :
                 config.getAlgorithmPackages()) {
-            Set<Class<?>> algorithmClasses = getClassesByAnnotation(algorithmPackage, Algorithm.class);
+            Set<Class<?>> algorithmClasses = getClassesByAnnotation(algorithmPackage, AlgorithmImpl.class);
             for (Class<?> algorithmClass :
                     algorithmClasses) {
-                String algorithmName = algorithmClass.getAnnotation(Algorithm.class).value();
+                String algorithmName = algorithmClass.getAnnotation(AlgorithmImpl.class).value();
                 ALGORITHM_MAP.put(algorithmName, algorithmClass);
                 notifyObservers(algorithmClass);
             }
