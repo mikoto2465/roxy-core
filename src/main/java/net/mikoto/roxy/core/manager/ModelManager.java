@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static net.mikoto.roxy.core.util.FileUtil.createDir;
+import static net.mikoto.roxy.core.util.FileUtil.readFile;
 
 /**
  * @author mikoto
@@ -36,28 +37,12 @@ public class ModelManager {
         File[] modelFiles = configDir.listFiles(
                 pathname -> pathname.isDirectory() || pathname.getAbsolutePath().endsWith(config.getModelSuffix())
         );
-        File[] configFiles = configDir.listFiles(
-                pathname -> pathname.isDirectory() || pathname.getAbsolutePath().endsWith(config.getConfigSuffix())
-        );
 
         // Looking for models.
         if (modelFiles != null && modelFiles.length > 0) {
             for (File file :
                     modelFiles) {
-                StringBuilder stringBuilder = new StringBuilder();
-                // Read single file
-                try (
-                        FileInputStream fileInputStream = new FileInputStream(file);
-                        InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream, StandardCharsets.UTF_8);
-                        BufferedReader bufferedReader = new BufferedReader(inputStreamReader)
-                ) {
-                    String line;
-                    while ((line = bufferedReader.readLine()) != null) {
-                        stringBuilder.append(line);
-                    }
-                }
-
-                JSONObject modelJson = JSONObject.parseObject(stringBuilder.toString());
+                JSONObject modelJson = JSONObject.parseObject(readFile(file));
                 String modelName = modelJson.getString("modelName");
                 modelMap.put(modelName, generateModelClass(config.getModelPackage(), modelJson));
                 log.info("[Roxy] Found model -> " + modelName);

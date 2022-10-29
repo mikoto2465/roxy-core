@@ -10,14 +10,12 @@ import net.mikoto.roxy.core.annotation.AlgorithmImpl;
         }
 )
 public class IntegerIncrementAlgorithm implements StringAlgorithm {
-    private final Integer start;
     private Integer last;
     private final Integer end;
     public IntegerIncrementAlgorithm(Integer start, Integer end) {
         if (start > end) {
             throw new RuntimeException("Start number cannot bigger than end number");
         }
-        this.start = start;
         this.end = end;
         last = start - 1;
     }

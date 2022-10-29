@@ -2,9 +2,8 @@ package net.mikoto.roxy.core.util;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 
 /**
  * @author mikoto
@@ -65,5 +64,29 @@ public final class FileUtil {
             fileWriter.write(input);
             fileWriter.close();
         }
+    }
+
+    /**
+     * Read data from file.
+     *
+     * @param file The file.
+     * @return The result.
+     * @throws IOException IOException.
+     */
+    @NotNull
+    public static String readFile(File file) throws IOException {
+        StringBuilder stringBuilder = new StringBuilder();
+        // Read single file
+        try (
+                FileInputStream fileInputStream = new FileInputStream(file);
+                InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream, StandardCharsets.UTF_8);
+                BufferedReader bufferedReader = new BufferedReader(inputStreamReader)
+        ) {
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                stringBuilder.append(line);
+            }
+        }
+        return stringBuilder.toString();
     }
 }

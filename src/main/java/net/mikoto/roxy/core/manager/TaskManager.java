@@ -1,6 +1,9 @@
 package net.mikoto.roxy.core.manager;
 
+import net.mikoto.roxy.core.model.Config;
 import org.springframework.stereotype.Component;
+
+import java.io.File;
 
 /**
  * @author mikoto
@@ -9,4 +12,6 @@ import org.springframework.stereotype.Component;
  */
 @Component("RoxyTaskManager")
 public class TaskManager {
+    public TaskManager(Config config) {
+    }
 }
