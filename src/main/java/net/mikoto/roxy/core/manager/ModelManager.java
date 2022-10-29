@@ -39,9 +39,6 @@ public class ModelManager {
         File[] configFiles = configDir.listFiles(
                 pathname -> pathname.isDirectory() || pathname.getAbsolutePath().endsWith(config.getConfigSuffix())
         );
-        File[] mapperFiles = configDir.listFiles(
-                pathname -> pathname.isDirectory() || pathname.getAbsolutePath().endsWith(config.getMapperSuffix())
-        );
 
         // Looking for models.
         if (modelFiles != null && modelFiles.length > 0) {

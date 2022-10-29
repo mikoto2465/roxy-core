@@ -23,6 +23,5 @@ public class Config {
     private String modelPackage = "net.mikoto.roxy.core.model";
     private String modelSuffix = ".model.json";
     private String configSuffix = ".config.json";
-    private String mapperSuffix = ".mapper.json";
     private String[] algorithmPackages = new String[]{"net.mikoto.roxy.core.algorithm"};
 }
