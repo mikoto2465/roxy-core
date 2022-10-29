@@ -1,4 +1,4 @@
 package net.mikoto.roxy.core.algorithm.impl;
 
-public class IntegerIncrementStringAlgorithm {
+public class IntegerIncrementAlgorithm {
 }

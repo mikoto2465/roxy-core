@@ -35,7 +35,7 @@ public class SmoothWeightedServerAlgorithm implements ServerAlgorithm {
     }
 
     @Override
-    public Server run() {
+    public Server run(Object... objects) {
         if (!SERVER_LIST.isEmpty()) {
             Iterator<? extends CurrentWeighted> sourceSetIterator = SERVER_LIST.iterator();
 

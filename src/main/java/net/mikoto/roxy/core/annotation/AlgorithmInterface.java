@@ -16,7 +16,13 @@ public @interface AlgorithmInterface {
      */
     String value();
 
+    /**
+     * @return The class it promise response.
+     */
     Class<?> resultClass();
 
+    /**
+     * @return The input it input.
+     */
     Class<?>[] inputClasses() default {};
 }

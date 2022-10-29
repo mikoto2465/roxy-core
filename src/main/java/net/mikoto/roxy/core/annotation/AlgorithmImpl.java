@@ -20,7 +20,13 @@ public @interface AlgorithmImpl {
      */
     String value();
 
+    /**
+     * @return The params of the constructor.
+     */
     Class<?>[] constructorParamsClasses() default {String.class};
 
+    /**
+     * @return The special object type container.(Auto create)
+     */
     ContainerType[] constructorParamsContainers() default {ContainerType.NO_CONTAINER};
 }

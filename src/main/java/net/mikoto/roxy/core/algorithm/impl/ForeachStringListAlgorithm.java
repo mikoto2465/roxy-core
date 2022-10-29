@@ -29,7 +29,7 @@ public class ForeachStringListAlgorithm implements StringAlgorithm {
     }
 
     @Override
-    public String run() {
+    public String run(Object... objects) {
         if (currentIndex < maxIndex) {
             String routeValue = routeValues.get(currentIndex);
             currentIndex ++;

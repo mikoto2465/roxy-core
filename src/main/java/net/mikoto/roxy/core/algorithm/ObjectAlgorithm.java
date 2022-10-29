@@ -11,6 +11,6 @@ import net.mikoto.roxy.core.annotation.AlgorithmInterface;
         value = "RoxyServerAlgorithm",
         resultClass = Object.class
 )
-public interface ObjectAlgorithm {
-    Object run();
+public interface ObjectAlgorithm extends Algorithm<Object> {
+    Object run(Object... objects);
 }

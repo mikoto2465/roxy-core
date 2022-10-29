@@ -1,7 +1,6 @@
 package net.mikoto.roxy.core.algorithm.impl;
 
 import net.mikoto.roxy.core.algorithm.ObjectAlgorithm;
-import net.mikoto.roxy.core.algorithm.ServerAlgorithm;
 import net.mikoto.roxy.core.annotation.AlgorithmImpl;
 import net.mikoto.roxy.core.model.network.server.Server;
 
@@ -13,17 +12,17 @@ import net.mikoto.roxy.core.model.network.server.Server;
 @AlgorithmImpl(
         value = "RoxyStaticObjectAlgorithm",
         constructorParamsClasses = {
-                Server.class
+                Object.class
         }
 )
-public class StaticServerAlgorithm implements ObjectAlgorithm {
+public class StaticObjectAlgorithm implements ObjectAlgorithm {
     private final Object object;
 
-    public StaticServerAlgorithm(Object object) {
+    public StaticObjectAlgorithm(Object object) {
         this.object = object;
     }
 
-    public Object run() {
+    public Object run(Object... objects) {
         return object;
     }
 }
