@@ -1,14 +1,13 @@
 package net.mikoto.roxy.core;
 
-import com.alibaba.fastjson2.JSONObject;
 import com.dtflys.forest.springboot.annotation.ForestScan;
 import net.mikoto.roxy.core.algorithm.ServerAlgorithm;
 import net.mikoto.roxy.core.algorithm.StringAlgorithm;
 import net.mikoto.roxy.core.manager.AlgorithmManager;
 import net.mikoto.roxy.core.manager.ModelManager;
+import net.mikoto.roxy.core.model.RoxyModel;
 import net.mikoto.roxy.core.model.network.server.CurrentWeightedHttpServer;
 import net.mikoto.roxy.core.model.network.server.HttpServer;
-import net.mikoto.roxy.core.model.network.server.Server;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -17,7 +16,6 @@ import org.springframework.context.annotation.ComponentScan;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -71,5 +69,7 @@ class CoreApplicationTests {
 
     @Test
     void modelManagerTest() {
+        Class<?> modelClass = modelManager.getRawModel("Artwork");
+        System.out.println(modelClass.getSuperclass().getName());
     }
 }

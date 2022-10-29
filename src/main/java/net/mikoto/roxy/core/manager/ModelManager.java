@@ -5,6 +5,7 @@ import com.alibaba.fastjson2.JSONObject;
 import groovy.lang.GroovyClassLoader;
 import lombok.extern.log4j.Log4j2;
 import net.mikoto.roxy.core.model.Config;
+import net.mikoto.roxy.core.model.RoxyModel;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -59,9 +60,9 @@ public class ModelManager {
                     }
                 }
 
-                JSONObject jsonObject = JSONObject.parseObject(stringBuilder.toString());
-                String modelName = jsonObject.getString("Artwork");
-                modelMap.put(modelName, generateModelClass(config.getModelPackage(), jsonObject));
+                JSONObject modelJson = JSONObject.parseObject(stringBuilder.toString());
+                String modelName = modelJson.getString("modelName");
+                modelMap.put(modelName, generateModelClass(config.getModelPackage(), modelJson));
                 log.info("[Roxy] Found model -> " + modelName);
             }
         } else {
@@ -71,21 +72,28 @@ public class ModelManager {
 
     }
 
-    public Class<?> getRawModelJson(String modelName) {
+    public Class<?> getRawModel(String modelName) {
         return modelMap.get(modelName);
     }
 
-    public Class<?>[] getRawModelJsons() {
+    public Class<?>[] getRawModels() {
         return modelMap.values().toArray(new Class[0]);
+    }
+
+    public String[] getModelNames() {
+        return modelMap.keySet().toArray(new String[0]);
     }
 
     public static Class<?> generateModelClass(String packageName, @NotNull JSONObject roxyModel) {
         StringBuilder classCodeBuilder = new StringBuilder();
-        classCodeBuilder.append("package ").append(packageName).append(";");
-        classCodeBuilder.append("import javax.persistence.*;");
-        classCodeBuilder.append("@Entity ");
-        classCodeBuilder.append("@Table(name = \"").append(roxyModel.get("tableName")).append("\") ");
-        classCodeBuilder.append("public class ").append(roxyModel.get("modelName")).append(" {");
+        classCodeBuilder.append("package ").append(packageName).append(";"); // package [PackageName];
+        classCodeBuilder.append("import javax.persistence.*;"); // import javax.persistence.*;
+        classCodeBuilder.append("@Entity "); // @Entity
+        classCodeBuilder.append("@Table(name = \"").append(roxyModel.get("tableName")).append("\") "); // @Table(name = "[TableName]")
+        classCodeBuilder.append("public class ").append(roxyModel.get("modelName")).append(" extends ").append(RoxyModel.class.getName()).append(" {");
+        // public class [ModelName] extends net.mikoto.roxy.core.model.RoxyModel
+
+        // Fields foreach
         JSONArray fields = roxyModel.getJSONArray("field");
         for (int i = 0; i < fields.size(); i++) {
             JSONObject field = fields.getJSONObject(i);
