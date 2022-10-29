@@ -19,7 +19,10 @@ import org.springframework.stereotype.Service;
 public class Config {
     private boolean isLogging = true;
     private String[] observers = new String[]{"RoxyServerObserver"};
-    private String modelPath = "/model";
-    private String[] algorithmPackages = new String[]{"net.mikoto.roxy.core.algorithm"};
+    private String configPath = "/config";
+    private String modelPackage = "net.mikoto.roxy.core.model";
     private String modelSuffix = ".model.json";
+    private String configSuffix = ".config.json";
+    private String mapperSuffix = ".mapper.json";
+    private String[] algorithmPackages = new String[]{"net.mikoto.roxy.core.algorithm"};
 }

@@ -10,6 +10,6 @@ import lombok.Data;
  * This is an abstract of the roxy patch target model.
  */
 @Data
-public class RoxyModelConfig {
+public class RoxyModel {
     String idClass;
 }

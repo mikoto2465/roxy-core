@@ -18,8 +18,17 @@ public class CurrentWeightedHttpServer extends WeightedHttpServer implements Cur
         super(weight);
     }
 
+    public CurrentWeightedHttpServer(String address, int weight) {
+        super(address, weight);
+    }
+
     public CurrentWeightedHttpServer(int weight, int currentWeight) {
         super(weight);
+        this.currentWeight = currentWeight;
+    }
+
+    public CurrentWeightedHttpServer(String address, int weight, int currentWeight) {
+        super(address, weight);
         this.currentWeight = currentWeight;
     }
 }

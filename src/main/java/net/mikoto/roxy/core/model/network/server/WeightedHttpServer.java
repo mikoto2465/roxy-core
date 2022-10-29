@@ -9,9 +9,17 @@ import net.mikoto.roxy.core.model.network.weight.Weighted;
  * @date 2022/10/23
  * Create for core
  */
-@AllArgsConstructor
 public class WeightedHttpServer extends HttpServer implements Weighted {
     private final int weight;
+
+    public WeightedHttpServer(int weight) {
+        this.weight = weight;
+    }
+
+    public WeightedHttpServer(String address, int weight) {
+        super(address);
+        this.weight = weight;
+    }
 
     /**
      * Get the weight of the model.

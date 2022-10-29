@@ -27,7 +27,7 @@ public class SmoothWeightedServerAlgorithm implements ServerAlgorithm {
     private final List<? extends CurrentWeighted> SERVER_LIST;
 
     public SmoothWeightedServerAlgorithm(List<? extends CurrentWeighted> list) {
-        if (list instanceof Server) {
+        if (list != null && !list.isEmpty() && list.get(0) instanceof Server) {
             this.SERVER_LIST = list;
         } else {
             throw new RuntimeException("Unknown type");
