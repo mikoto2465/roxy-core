@@ -30,32 +30,21 @@ public class ModelManager {
     private static final GroovyClassLoader groovyClassLoader = new GroovyClassLoader();
 
     @Autowired
-    public ModelManager(@NotNull Config config) throws IOException {
-        // To make sure the dir is existed.
-        createDir(config.getConfigPath());
-        File configDir = new File(System.getProperty("user.dir") + config.getConfigPath());
-        File[] modelFiles = configDir.listFiles(
-                pathname -> pathname.isDirectory() || pathname.getAbsolutePath().endsWith(config.getModelSuffix())
-        );
-
-        // Looking for models.
-        if (modelFiles != null && modelFiles.length > 0) {
-            for (File file :
-                    modelFiles) {
-                JSONObject modelJson = JSONObject.parseObject(readFile(file));
-                String modelName = modelJson.getString("modelName");
-                modelMap.put(modelName, generateModelClass(config.getModelPackage(), modelJson));
-                log.info("[Roxy] Found model -> " + modelName);
-            }
-        } else {
-            log.warn("[Roxy] No model was found");
-        }
-
-
+    public ModelManager() {
     }
 
     public Class<?> getRawModel(String modelName) {
         return modelMap.get(modelName);
+    }
+
+    /**
+     * Register a new model.
+     *
+     * @param modelName The model name.
+     * @param modelClass The model class.
+     */
+    public void registerModel(String modelName, Class<?> modelClass) {
+        modelMap.put(modelName, modelClass);
     }
 
     public Class<?>[] getRawModels() {
@@ -74,7 +63,6 @@ public class ModelManager {
         classCodeBuilder.append("@Table(name = \"").append(roxyModel.get("tableName")).append("\") "); // @Table(name = "[TableName]")
         classCodeBuilder.append("public class ").append(roxyModel.get("modelName")).append(" extends ").append(RoxyModel.class.getName()).append(" {");
         // public class [ModelName] extends net.mikoto.roxy.core.model.RoxyModel
-
         // Fields foreach
         JSONArray fields = roxyModel.getJSONArray("field");
         for (int i = 0; i < fields.size(); i++) {

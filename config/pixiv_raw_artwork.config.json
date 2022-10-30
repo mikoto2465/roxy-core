@@ -1,27 +1,24 @@
 {
     "model": "Artwork",
-
-    "source": {
-        "algorithmInterface": "RoxyServerAlgorithm",
-        "algorithm": [
-            {
-                "algorithmImpl": "RoxyStaticServerAlgorithm",
-                "params": [
-                    {
-                        "type": "net.mikoto.roxy.core.model.network.server.HttpServer",
-                        "params": [
-                            {
-                                "type": "String",
-                                "value": "https://www.pixiv.net"
-                            }
-                        ]
-                    }
-                ]
-            }
-        ]
-    },
+    "sources": [
+        {
+            "algorithmInterface": "RoxyObjectAlgorithm",
+            "algorithmImpl": "RoxyStaticObjectAlgorithm",
+            "algorithmImplParams": [
+                {
+                    "type": "net.mikoto.roxy.core.model.network.server.HttpServer",
+                    "params": [
+                        {
+                            "type": "java.lang.String",
+                            "value": "https://www.pixiv.net"
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
 
     "task": {
-
+        "subTaskCount": 10
     }
 }
