@@ -12,6 +12,6 @@ import net.mikoto.roxy.core.model.network.server.Server;
         value = "RoxyServerAlgorithm",
         resultClass = Server.class
 )
-public interface ServerAlgorithm extends Algorithm<Server> {
+public interface ServerAlgorithm {
     Server run(Object... objects);
 }

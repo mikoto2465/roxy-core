@@ -2,15 +2,9 @@ package net.mikoto.roxy.core.algorithm;
 
 import net.mikoto.roxy.core.annotation.AlgorithmInterface;
 
-/**
- * @author mikoto
- * @date 2022/10/23
- * Create for core
- */
 @AlgorithmInterface(
-        value = "RoxyServerAlgorithm",
+        value = "RoxyObjectAlgorithm",
         resultClass = Object.class
 )
 public interface ObjectAlgorithm extends Algorithm<Object> {
-    Object run(Object... objects);
 }

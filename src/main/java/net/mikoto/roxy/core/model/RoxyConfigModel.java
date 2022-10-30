@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ModelConfig {
+public class RoxyConfigModel {
     private String modelName;
     private SourceConfig[] sources;
 }

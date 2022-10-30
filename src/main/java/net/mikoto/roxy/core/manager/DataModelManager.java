@@ -4,37 +4,32 @@ import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
 import groovy.lang.GroovyClassLoader;
 import lombok.extern.log4j.Log4j2;
-import net.mikoto.roxy.core.model.Config;
-import net.mikoto.roxy.core.model.RoxyModel;
+import net.mikoto.roxy.core.model.RoxyDataModel;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.io.*;
-import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
-
-import static net.mikoto.roxy.core.util.FileUtil.createDir;
-import static net.mikoto.roxy.core.util.FileUtil.readFile;
 
 /**
  * @author mikoto
  * @date 2022/10/15
  * Create for core
  */
-@Component("RoxyModelManager")
+@Component("RoxyDataModelManager")
 @Log4j2
-public class ModelManager {
-    private static final Map<String, Class<?>> modelMap = new HashMap<>();
+public class DataModelManager {
+    private static final Map<String, Class<? extends RoxyDataModel>> dataModelMap = new HashMap<>();
     private static final GroovyClassLoader groovyClassLoader = new GroovyClassLoader();
 
     @Autowired
-    public ModelManager() {
+    public DataModelManager() {
     }
 
-    public Class<?> getRawModel(String modelName) {
-        return modelMap.get(modelName);
+    public Class<? extends RoxyDataModel> getDataModelClass(String modelName) {
+        return dataModelMap.get(modelName);
     }
 
     /**
@@ -43,25 +38,26 @@ public class ModelManager {
      * @param modelName The model name.
      * @param modelClass The model class.
      */
-    public void registerModel(String modelName, Class<?> modelClass) {
-        modelMap.put(modelName, modelClass);
+    public void registerModel(String modelName, Class<? extends RoxyDataModel> modelClass) {
+        dataModelMap.put(modelName, modelClass);
     }
 
-    public Class<?>[] getRawModels() {
-        return modelMap.values().toArray(new Class[0]);
+    public Iterator<Class<? extends RoxyDataModel>> getIterator() {
+        return dataModelMap.values().iterator();
     }
 
     public String[] getModelNames() {
-        return modelMap.keySet().toArray(new String[0]);
+        return dataModelMap.keySet().toArray(new String[0]);
     }
 
-    public static Class<?> generateModelClass(String packageName, @NotNull JSONObject roxyModel) {
+    @SuppressWarnings({"CastCanBeRemovedNarrowingVariableType", "unchecked"})
+    public static Class<? extends RoxyDataModel> generateModelClass(String packageName, @NotNull JSONObject roxyModel) {
         StringBuilder classCodeBuilder = new StringBuilder();
         classCodeBuilder.append("package ").append(packageName).append(";"); // package [PackageName];
         classCodeBuilder.append("import javax.persistence.*;"); // import javax.persistence.*;
         classCodeBuilder.append("@Entity "); // @Entity
         classCodeBuilder.append("@Table(name = \"").append(roxyModel.get("tableName")).append("\") "); // @Table(name = "[TableName]")
-        classCodeBuilder.append("public class ").append(roxyModel.get("modelName")).append(" extends ").append(RoxyModel.class.getName()).append(" {");
+        classCodeBuilder.append("public class ").append(roxyModel.get("modelName")).append(" extends ").append(RoxyDataModel.class.getName()).append(" {");
         // public class [ModelName] extends net.mikoto.roxy.core.model.RoxyModel
         // Fields foreach
         JSONArray fields = roxyModel.getJSONArray("field");
@@ -81,6 +77,7 @@ public class ModelManager {
             classCodeBuilder.append("private ").append(field.getString("type")).append(" ").append(fieldName).append(";");
         }
         classCodeBuilder.append("}");
-        return groovyClassLoader.parseClass(classCodeBuilder.toString());
+        Class<?> clazz = groovyClassLoader.parseClass(classCodeBuilder.toString());
+        return (Class<? extends RoxyDataModel>) clazz;
     }
 }

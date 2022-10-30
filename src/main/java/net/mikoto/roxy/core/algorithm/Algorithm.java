@@ -1,5 +1,8 @@
 package net.mikoto.roxy.core.algorithm;
 
+import net.mikoto.roxy.core.annotation.AlgorithmInterface;
+
+
 public interface Algorithm<T> {
     /**
      * Run this algorithm.

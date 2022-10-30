@@ -1,8 +1,8 @@
 package net.mikoto.roxy.core.scanner;
 
 import lombok.extern.log4j.Log4j2;
-import net.mikoto.roxy.core.manager.ModelManager;
-import net.mikoto.roxy.core.manager.ModelConfigManager;
+import net.mikoto.roxy.core.manager.DataModelManager;
+import net.mikoto.roxy.core.manager.ConfigModelManager;
 import net.mikoto.roxy.core.model.Config;
 import net.mikoto.roxy.core.scanner.handler.FileScannerStartHandler;
 import net.mikoto.roxy.core.scanner.handler.ModelConfigHandler;
@@ -20,11 +20,11 @@ public class ConfigScanner {
     private final FileHandler fileScannerStartHandler;
     private final Config config;
 
-    public ConfigScanner(Config config, ModelManager modelManager, ModelConfigManager modelConfigManager) throws IOException {
+    public ConfigScanner(Config config, DataModelManager dataModelManager, ConfigModelManager configModelManager) throws IOException {
         this.config = config;
         fileScannerStartHandler = new FileScannerStartHandler();
-        ModelHandler modelHandler = new ModelHandler(config, modelManager);
-        ModelConfigHandler modelConfigHandler = new ModelConfigHandler(config, modelConfigManager);
+        ModelHandler modelHandler = new ModelHandler(config, dataModelManager);
+        ModelConfigHandler modelConfigHandler = new ModelConfigHandler(config, configModelManager);
 
         fileScannerStartHandler
                 .setNext(modelHandler)

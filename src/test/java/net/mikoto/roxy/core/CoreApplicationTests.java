@@ -4,9 +4,11 @@ import com.dtflys.forest.springboot.annotation.ForestScan;
 import net.mikoto.roxy.core.algorithm.ServerAlgorithm;
 import net.mikoto.roxy.core.algorithm.StringAlgorithm;
 import net.mikoto.roxy.core.manager.AlgorithmManager;
-import net.mikoto.roxy.core.manager.ModelConfigManager;
-import net.mikoto.roxy.core.manager.ModelManager;
-import net.mikoto.roxy.core.model.ModelConfig;
+import net.mikoto.roxy.core.manager.ConfigModelManager;
+import net.mikoto.roxy.core.manager.DataModelManager;
+import net.mikoto.roxy.core.manager.RoxyModelManager;
+import net.mikoto.roxy.core.model.RoxyConfigModel;
+import net.mikoto.roxy.core.model.RoxyModel;
 import net.mikoto.roxy.core.model.network.server.CurrentWeightedHttpServer;
 import net.mikoto.roxy.core.model.network.server.HttpServer;
 import org.junit.jupiter.api.Test;
@@ -26,14 +28,16 @@ import java.util.List;
 class CoreApplicationTests {
 
     private final AlgorithmManager algorithmManager;
-    private final ModelManager modelManager;
-    private final ModelConfigManager modelConfigManager;
+    private final DataModelManager dataModelManager;
+    private final ConfigModelManager configModelManager;
+    private final RoxyModelManager roxyModelManager;
 
     @Autowired
-    CoreApplicationTests(AlgorithmManager algorithmManager, ModelManager modelManager, ModelConfigManager modelConfigManager) {
+    CoreApplicationTests(AlgorithmManager algorithmManager, DataModelManager dataModelManager, ConfigModelManager configModelManager, RoxyModelManager roxyModelManager) {
         this.algorithmManager = algorithmManager;
-        this.modelManager = modelManager;
-        this.modelConfigManager = modelConfigManager;
+        this.dataModelManager = dataModelManager;
+        this.configModelManager = configModelManager;
+        this.roxyModelManager = roxyModelManager;
     }
 
     @Test
@@ -71,14 +75,15 @@ class CoreApplicationTests {
     }
 
     @Test
-    void modelManagerTest() {
-        Class<?> modelClass = modelManager.getRawModel("Artwork");
-        System.out.println(modelClass.getSuperclass().getName());
+    void modelManagerTest() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+        RoxyModel roxyModel = roxyModelManager.createModel("Artwork");
+        System.out.println(roxyModel.getSource()[0].run());
+        System.out.println(roxyModel);
     }
 
     @Test
     void modelConfigManagerTest() {
-        ModelConfig modelConfig = modelConfigManager.getModelConfig("Artwork");
-        System.out.println(modelConfig);
+        RoxyConfigModel roxyConfigModel = configModelManager.getModelConfig("Artwork");
+        System.out.println(roxyConfigModel);
     }
 }

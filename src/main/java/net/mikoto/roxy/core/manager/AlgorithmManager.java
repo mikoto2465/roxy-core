@@ -1,6 +1,7 @@
 package net.mikoto.roxy.core.manager;
 
 import lombok.extern.log4j.Log4j2;
+import net.mikoto.roxy.core.algorithm.Algorithm;
 import net.mikoto.roxy.core.algorithm.ContainerType;
 import net.mikoto.roxy.core.annotation.AlgorithmImpl;
 import net.mikoto.roxy.core.annotation.AlgorithmInterface;
@@ -12,7 +13,6 @@ import org.springframework.stereotype.Component;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -64,7 +64,7 @@ public class AlgorithmManager {
     }
 
     @NotNull
-    public final Object createAlgorithmByName(String algorithmName, @NotNull Object... params) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+    public final Algorithm<?> createAlgorithmByName(String algorithmName, @NotNull Object... params) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
         Class<?> algorithmClass = ALGORITHM_IMPL_CLASS.get(algorithmName);
         AlgorithmImpl algorithm = ALGORITHM_IMPL_INFO.get(algorithmName);
 
@@ -78,6 +78,11 @@ public class AlgorithmManager {
         }
 
         Constructor<?> constructor = algorithmClass.getConstructor(classesArray);
-        return constructor.newInstance(params);
+        Object o = constructor.newInstance(params);
+        if (o instanceof Algorithm<?>) {
+            return (Algorithm<?>) o;
+        } else {
+            throw new RuntimeException("Unsupported object");
+        }
     }
 }

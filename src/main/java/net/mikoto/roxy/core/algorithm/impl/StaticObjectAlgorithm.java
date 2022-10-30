@@ -1,8 +1,8 @@
 package net.mikoto.roxy.core.algorithm.impl;
 
+import net.mikoto.roxy.core.algorithm.Algorithm;
 import net.mikoto.roxy.core.algorithm.ObjectAlgorithm;
 import net.mikoto.roxy.core.annotation.AlgorithmImpl;
-import net.mikoto.roxy.core.model.network.server.Server;
 
 /**
  * @author mikoto
