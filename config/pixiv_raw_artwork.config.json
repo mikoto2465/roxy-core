@@ -2,8 +2,8 @@
     "modelName": "Artwork",
     "sources": [
         {
-            "algorithmInterface": "RoxyObjectAlgorithm",
-            "algorithmImpl": "RoxyStaticObjectAlgorithm",
+            "algorithmInterfaceName": "RoxyObjectAlgorithm",
+            "algorithmImplName": "RoxyStaticObjectAlgorithm",
             "algorithmImplParams": [
                 {
                     "type": "net.mikoto.roxy.core.model.network.server.HttpServer",

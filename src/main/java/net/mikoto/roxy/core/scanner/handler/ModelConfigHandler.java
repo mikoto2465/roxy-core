@@ -1,5 +1,6 @@
 package net.mikoto.roxy.core.scanner.handler;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson2.JSONObject;
 import lombok.extern.log4j.Log4j2;
 import net.mikoto.roxy.core.manager.ModelConfigManager;
@@ -26,10 +27,9 @@ public class ModelConfigHandler extends FileHandler {
     @Override
     protected void doHandle(@NotNull File file) throws IOException {
         if (file.getName().endsWith(config.getConfigSuffix())) {
-            JSONObject modelJson = JSONObject.parseObject(readFile(file));
-            String modelName = modelJson.getString("modelName");
-            modelConfigManager.registerModelConfig(modelName, modelJson.to(ModelConfig.class));
-            log.info("[Roxy] Found model config -> " + modelName);
+            ModelConfig modelConfig = JSON.parseObject(readFile(file), ModelConfig.class);
+            modelConfigManager.registerModelConfig(modelConfig);
+            log.info("[Roxy] Found model config -> " + modelConfig.getModelName());
         }
     }
 }

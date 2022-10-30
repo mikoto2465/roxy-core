@@ -18,8 +18,8 @@ import java.util.Map;
 public class ModelConfigManager {
     private static final Map<String, ModelConfig> modelConfigMap = new HashMap<>();
 
-    public void registerModelConfig(String modelName, ModelConfig modelConfig) {
-        modelConfigMap.put(modelName, modelConfig);
+    public void registerModelConfig(ModelConfig modelConfig) {
+        modelConfigMap.put(modelConfig.getModelName(), modelConfig);
     }
 
     public ModelConfig getModelConfig(String modelName) {
