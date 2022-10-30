@@ -4,6 +4,8 @@ import lombok.extern.log4j.Log4j2;
 import net.mikoto.roxy.core.manager.ModelManager;
 import net.mikoto.roxy.core.manager.ModelConfigManager;
 import net.mikoto.roxy.core.model.Config;
+import net.mikoto.roxy.core.scanner.handler.FileScannerStartHandler;
+import net.mikoto.roxy.core.scanner.handler.ModelConfigHandler;
 import net.mikoto.roxy.core.scanner.handler.ModelHandler;
 import org.springframework.stereotype.Component;
 
@@ -15,13 +17,20 @@ import static net.mikoto.roxy.core.util.FileUtil.createDir;
 @Component
 @Log4j2
 public class ConfigScanner {
-    private final ModelHandler modelHandler;
+    private final FileHandler fileScannerStartHandler;
     private final Config config;
 
-    public ConfigScanner(Config config, ModelManager modelManager, ModelConfigManager taskManager) throws IOException {
+    public ConfigScanner(Config config, ModelManager modelManager, ModelConfigManager modelConfigManager) throws IOException {
         this.config = config;
-        modelHandler = new ModelHandler(config, modelManager);
-        modelHandler.setNext(null);
+        fileScannerStartHandler = new FileScannerStartHandler();
+        ModelHandler modelHandler = new ModelHandler(config, modelManager);
+        ModelConfigHandler modelConfigHandler = new ModelConfigHandler(config, modelConfigManager);
+
+        fileScannerStartHandler
+                .setNext(modelHandler)
+                .setNext(modelConfigHandler)
+                .setNext(null);
+
         doScan();
     }
 
@@ -37,7 +46,7 @@ public class ConfigScanner {
         if (modelFiles != null && modelFiles.length > 0) {
             for (File file :
                     modelFiles) {
-                modelHandler.handle(file);
+                fileScannerStartHandler.handle(file);
             }
         } else {
             log.warn("[Roxy] No file was found");

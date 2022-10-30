@@ -10,8 +10,9 @@ import java.io.IOException;
 public abstract class FileHandler {
     private FileHandler next;
 
-    public void setNext(FileHandler next) {
+    public FileHandler setNext(FileHandler next) {
         this.next = next;
+        return next;
     }
 
     public final void handle(File file) throws IOException {
