@@ -21,4 +21,8 @@ public class ModelConfigManager {
     public void registerModelConfig(String modelName, ModelConfig modelConfig) {
         modelConfigMap.put(modelName, modelConfig);
     }
+
+    public ModelConfig getModelConfig(String modelName) {
+        return modelConfigMap.get(modelName);
+    }
 }

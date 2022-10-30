@@ -39,7 +39,7 @@ public class ConfigScanner {
         createDir(config.getConfigPath());
         File configDir = new File(System.getProperty("user.dir") + config.getConfigPath());
         File[] modelFiles = configDir.listFiles(
-                pathname -> pathname.isDirectory() || pathname.getAbsolutePath().endsWith(config.getModelSuffix())
+                pathname -> pathname.isDirectory() || pathname.getAbsolutePath().endsWith(".json")
         );
 
         // Looking for models.

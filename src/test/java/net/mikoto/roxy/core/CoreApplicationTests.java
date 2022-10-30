@@ -4,8 +4,9 @@ import com.dtflys.forest.springboot.annotation.ForestScan;
 import net.mikoto.roxy.core.algorithm.ServerAlgorithm;
 import net.mikoto.roxy.core.algorithm.StringAlgorithm;
 import net.mikoto.roxy.core.manager.AlgorithmManager;
+import net.mikoto.roxy.core.manager.ModelConfigManager;
 import net.mikoto.roxy.core.manager.ModelManager;
-import net.mikoto.roxy.core.model.RoxyModel;
+import net.mikoto.roxy.core.model.ModelConfig;
 import net.mikoto.roxy.core.model.network.server.CurrentWeightedHttpServer;
 import net.mikoto.roxy.core.model.network.server.HttpServer;
 import org.junit.jupiter.api.Test;
@@ -26,11 +27,13 @@ class CoreApplicationTests {
 
     private final AlgorithmManager algorithmManager;
     private final ModelManager modelManager;
+    private final ModelConfigManager modelConfigManager;
 
     @Autowired
-    CoreApplicationTests(AlgorithmManager algorithmManager, ModelManager modelManager) {
+    CoreApplicationTests(AlgorithmManager algorithmManager, ModelManager modelManager, ModelConfigManager modelConfigManager) {
         this.algorithmManager = algorithmManager;
         this.modelManager = modelManager;
+        this.modelConfigManager = modelConfigManager;
     }
 
     @Test
@@ -71,5 +74,11 @@ class CoreApplicationTests {
     void modelManagerTest() {
         Class<?> modelClass = modelManager.getRawModel("Artwork");
         System.out.println(modelClass.getSuperclass().getName());
+    }
+
+    @Test
+    void modelConfigManagerTest() {
+        ModelConfig modelConfig = modelConfigManager.getModelConfig("Artwork");
+        System.out.println(modelConfig);
     }
 }
