@@ -8,6 +8,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ModelConfig {
-    private String model;
+    private String modelName;
     private SourceConfig[] sources;
 }

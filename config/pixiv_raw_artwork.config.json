@@ -1,5 +1,5 @@
 {
-    "model": "Artwork",
+    "modelName": "Artwork",
     "sources": [
         {
             "algorithmInterface": "RoxyObjectAlgorithm",
