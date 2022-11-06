@@ -3,6 +3,7 @@
     "resources": [
         {
             "resourceName": "PixivOriginalResource",
+            "route": "/ajax/illust/${id}",
             "algorithmInterfaceName": "RoxyServerAlgorithm",
             "algorithmImplName": "RoxyStaticObjectAlgorithm",
             "algorithmImplParams": [
@@ -15,6 +16,7 @@
         },
         {
             "resourceName": "PixivForwardResource",
+            "route": "/artwork/getInformation?artworkId=${id}",
             "algorithmInterfaceName": "RoxyServerAlgorithm",
             "algorithmImplName": "RoxySmoothWeightedServerAlgorithm",
             "algorithmImplParams": [

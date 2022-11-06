@@ -24,10 +24,6 @@ public class DataModelManager {
     private static final Map<String, Class<? extends RoxyDataModel>> dataModelMap = new HashMap<>();
     private static final GroovyClassLoader groovyClassLoader = new GroovyClassLoader();
 
-    @Autowired
-    public DataModelManager() {
-    }
-
     public Class<? extends RoxyDataModel> getDataModelClass(String modelName) {
         return dataModelMap.get(modelName);
     }

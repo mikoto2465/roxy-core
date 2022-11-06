@@ -1,7 +1,5 @@
 package net.mikoto.roxy.core.model.network.server;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
 import net.mikoto.roxy.core.model.network.weight.Weighted;
 
 /**
@@ -9,15 +7,15 @@ import net.mikoto.roxy.core.model.network.weight.Weighted;
  * @date 2022/10/23
  * Create for core
  */
-public class WeightedHttpServer extends HttpServer implements Weighted {
+public class WeightedHttpTarget extends HttpTarget implements Weighted {
     private final int weight;
 
-    public WeightedHttpServer(Integer weight) {
+    public WeightedHttpTarget(Integer weight) {
         this.weight = weight;
     }
 
-    public WeightedHttpServer(String address, Integer weight) {
-        super(address);
+    public WeightedHttpTarget(String address, String route , Integer weight) {
+        super(address, route);
         this.weight = weight;
     }
 

@@ -3,7 +3,6 @@ package net.mikoto.roxy.core;
 import com.dtflys.forest.springboot.annotation.ForestScan;
 import net.mikoto.roxy.core.algorithm.ObjectAlgorithm;
 import net.mikoto.roxy.core.algorithm.ServerAlgorithm;
-import net.mikoto.roxy.core.algorithm.StringAlgorithm;
 import net.mikoto.roxy.core.algorithm.impl.StaticObjectAlgorithm;
 import net.mikoto.roxy.core.manager.AlgorithmManager;
 import net.mikoto.roxy.core.manager.ConfigModelManager;
@@ -12,18 +11,16 @@ import net.mikoto.roxy.core.manager.RoxyModelManager;
 import net.mikoto.roxy.core.model.Config;
 import net.mikoto.roxy.core.model.RoxyConfigModel;
 import net.mikoto.roxy.core.model.RoxyModel;
-import net.mikoto.roxy.core.model.network.server.CurrentWeightedHttpServer;
-import net.mikoto.roxy.core.model.network.server.HttpServer;
+import net.mikoto.roxy.core.model.network.server.HttpTarget;
 import net.mikoto.roxy.core.scanner.ConfigScanner;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.ComponentScan;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -73,14 +70,25 @@ class CoreApplicationTests {
     @Test
     void modelManagerTest() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         RoxyModel roxyModel = roxyModelManager.createModel("Artwork");
-        assertEquals(new HttpServer("https://www.pixiv.net"), roxyModel.getResources().get("PixivOriginalResource").run());
+        assertEquals(new HttpTarget("https://www.pixiv.net", "/ajax/illust/${id}"), roxyModel.getResources().get("PixivOriginalResource").run());
         assertEquals("Artwork", roxyModel.getModelName());
 
         ServerAlgorithm pixivForwardResource = (ServerAlgorithm) roxyModel.getResources().get("PixivForwardResource");
-        assertEquals(new HttpServer("https://pixiv-forward-test-3.com"), pixivForwardResource.run());
-        assertEquals(new HttpServer("https://pixiv-forward-test-2.com"), pixivForwardResource.run());
-        assertEquals(new HttpServer("https://pixiv-forward-test-1.com"), pixivForwardResource.run());
-        assertEquals(new HttpServer("https://pixiv-forward-test-3.com"), pixivForwardResource.run());
-        assertEquals(new HttpServer("https://pixiv-forward-test-2.com"), pixivForwardResource.run());
+        assertEquals(new HttpTarget("https://pixiv-forward-test-3.com", "/artwork/getInformation?artworkId=${id}"), pixivForwardResource.run());
+        assertEquals(new HttpTarget("https://pixiv-forward-test-2.com", "/artwork/getInformation?artworkId=${id}"), pixivForwardResource.run());
+        assertEquals(new HttpTarget("https://pixiv-forward-test-1.com", "/artwork/getInformation?artworkId=${id}"), pixivForwardResource.run());
+        assertEquals(new HttpTarget("https://pixiv-forward-test-3.com", "/artwork/getInformation?artworkId=${id}"), pixivForwardResource.run());
+        assertEquals(new HttpTarget("https://pixiv-forward-test-2.com", "/artwork/getInformation?artworkId=${id}"), pixivForwardResource.run());
+    }
+
+    @Test
+    void HttpTargetModelTest() throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException, NoSuchFieldException {
+        HttpTarget httpTarget = new HttpTarget("https://www.pixiv.net", "/ajax/illust/${id}");
+        Class<?> dataModelClass = dataModelManager.getDataModelClass("Artwork");
+        Object dataModel = dataModelClass.getConstructor().newInstance();
+        Field artworkIdField = dataModelClass.getDeclaredField("artworkId");
+        artworkIdField.setAccessible(true);
+        artworkIdField.set(dataModel, 1);
+        assertEquals("https://www.pixiv.net/ajax/illust/1", httpTarget.getFullAddress(dataModelClass, dataModel));
     }
 }

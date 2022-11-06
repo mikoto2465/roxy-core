@@ -3,7 +3,7 @@ package net.mikoto.roxy.core.algorithm.impl;
 import net.mikoto.roxy.core.algorithm.ContainerType;
 import net.mikoto.roxy.core.algorithm.ServerAlgorithm;
 import net.mikoto.roxy.core.annotation.AlgorithmImpl;
-import net.mikoto.roxy.core.model.network.server.Server;
+import net.mikoto.roxy.core.model.network.server.HttpTarget;
 import net.mikoto.roxy.core.model.network.weight.CurrentWeighted;
 
 import java.util.Iterator;
@@ -22,7 +22,7 @@ public class SmoothWeightedServerAlgorithm implements ServerAlgorithm {
     private final List<? extends CurrentWeighted> SERVER_LIST;
 
     public SmoothWeightedServerAlgorithm(List<? extends CurrentWeighted> list) {
-        if (list != null && !list.isEmpty() && list.get(0) instanceof Server) {
+        if (list != null && !list.isEmpty() && list.get(0) instanceof HttpTarget) {
             this.SERVER_LIST = list;
         } else {
             throw new RuntimeException("Unknown type");
@@ -30,7 +30,7 @@ public class SmoothWeightedServerAlgorithm implements ServerAlgorithm {
     }
 
     @Override
-    public Server run(Object... objects) {
+    public HttpTarget run(Object... objects) {
         if (!SERVER_LIST.isEmpty()) {
             Iterator<? extends CurrentWeighted> sourceSetIterator = SERVER_LIST.iterator();
 
@@ -49,7 +49,7 @@ public class SmoothWeightedServerAlgorithm implements ServerAlgorithm {
 
             resultServer.setCurrentWeight(resultServer.getCurrentWeight() - currentWeightSum);
 
-            return (Server) resultServer;
+            return (HttpTarget) resultServer;
         } else {
             return null;
         }

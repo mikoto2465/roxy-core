@@ -11,10 +11,10 @@ import net.mikoto.roxy.core.model.network.weight.CurrentWeighted;
  */
 @Getter
 @Setter
-public class CurrentWeightedHttpServer extends WeightedHttpServer implements CurrentWeighted {
+public class CurrentWeightedHttpTarget extends WeightedHttpTarget implements CurrentWeighted {
     private int currentWeight = 0;
 
-    public CurrentWeightedHttpServer(String address, Integer weight) {
-        super(address, weight);
+    public CurrentWeightedHttpTarget(String address, String route, Integer weight) {
+        super(address, route, weight);
     }
 }
