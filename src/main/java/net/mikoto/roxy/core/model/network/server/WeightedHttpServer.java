@@ -12,11 +12,11 @@ import net.mikoto.roxy.core.model.network.weight.Weighted;
 public class WeightedHttpServer extends HttpServer implements Weighted {
     private final int weight;
 
-    public WeightedHttpServer(int weight) {
+    public WeightedHttpServer(Integer weight) {
         this.weight = weight;
     }
 
-    public WeightedHttpServer(String address, int weight) {
+    public WeightedHttpServer(String address, Integer weight) {
         super(address);
         this.weight = weight;
     }

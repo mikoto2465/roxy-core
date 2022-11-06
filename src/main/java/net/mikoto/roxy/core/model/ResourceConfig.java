@@ -7,7 +7,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class SourceConfig {
+public class ResourceConfig {
+    private String resourceName;
     private String algorithmInterfaceName;
     private String algorithmImplName;
     private InstantiableObject[] algorithmImplParams;

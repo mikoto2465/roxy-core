@@ -77,8 +77,13 @@ class CoreApplicationTests {
     @Test
     void modelManagerTest() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         RoxyModel roxyModel = roxyModelManager.createModel("Artwork");
-        System.out.println(roxyModel.getSource()[0].run());
+        System.out.println(roxyModel.getResources().get("PixivOriginalResource").run());
         System.out.println(roxyModel);
+
+        ServerAlgorithm pixivForwardResource = (ServerAlgorithm) roxyModel.getResources().get("PixivForwardResource");
+        for (int i = 0; i < 10; i++) {
+            System.out.println(pixivForwardResource.run());
+        }
     }
 
     @Test

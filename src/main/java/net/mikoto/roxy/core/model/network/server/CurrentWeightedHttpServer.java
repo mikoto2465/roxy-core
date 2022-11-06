@@ -14,21 +14,7 @@ import net.mikoto.roxy.core.model.network.weight.CurrentWeighted;
 public class CurrentWeightedHttpServer extends WeightedHttpServer implements CurrentWeighted {
     private int currentWeight = 0;
 
-    public CurrentWeightedHttpServer(int weight) {
-        super(weight);
-    }
-
-    public CurrentWeightedHttpServer(String address, int weight) {
+    public CurrentWeightedHttpServer(String address, Integer weight) {
         super(address, weight);
-    }
-
-    public CurrentWeightedHttpServer(int weight, int currentWeight) {
-        super(weight);
-        this.currentWeight = currentWeight;
-    }
-
-    public CurrentWeightedHttpServer(String address, int weight, int currentWeight) {
-        super(address, weight);
-        this.currentWeight = currentWeight;
     }
 }

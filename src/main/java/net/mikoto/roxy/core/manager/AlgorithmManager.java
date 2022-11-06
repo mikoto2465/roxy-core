@@ -12,9 +12,7 @@ import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import static net.mikoto.roxy.core.util.ReflectionUtil.getClassesByAnnotation;
 
@@ -69,12 +67,11 @@ public class AlgorithmManager {
         AlgorithmImpl algorithm = ALGORITHM_IMPL_INFO.get(algorithmName);
 
         Class<?>[] classesArray = new Class[algorithm.constructorParamsClasses().length];
-        for (int i = 0; i < algorithm.constructorParamsClasses().length; i++) {
-            if (algorithm.constructorParamsContainers()[i] == ContainerType.NO_CONTAINER) {
-                classesArray[i] = algorithm.constructorParamsClasses()[i];
-            } else {
-                classesArray[i] = algorithm.constructorParamsContainers()[i].getClazz();
-            }
+        if (algorithm.constructorParamsContainer() == ContainerType.NO_CONTAINER) {
+            System.arraycopy(algorithm.constructorParamsClasses(), 0, classesArray, 0, algorithm.constructorParamsClasses().length);
+        } else if (algorithm.constructorParamsContainer() == ContainerType.LIST) {
+            classesArray[0] = List.class;
+            params = new Object[]{Arrays.stream(params).toList()};
         }
 
         Constructor<?> constructor = algorithmClass.getConstructor(classesArray);

@@ -1,14 +1,36 @@
 {
     "modelName": "Artwork",
-    "sources": [
+    "resources": [
         {
-            "algorithmInterfaceName": "RoxyObjectAlgorithm",
+            "resourceName": "PixivOriginalResource",
+            "algorithmInterfaceName": "RoxyServerAlgorithm",
             "algorithmImplName": "RoxyStaticObjectAlgorithm",
             "algorithmImplParams": [
                 {
                     "type": "net.mikoto.roxy.core.model.network.server.HttpServer",
                     "paramTypes": ["java.lang.String"],
                     "values": ["https://www.pixiv.net"]
+                }
+            ]
+        },
+        {
+            "resourceName": "PixivForwardResource",
+            "algorithmInterfaceName": "RoxyServerAlgorithm",
+            "algorithmImplName": "RoxySmoothWeightedServerAlgorithm",
+            "algorithmImplParams": [
+                {
+                    "type": "net.mikoto.roxy.core.model.network.server.CurrentWeightedHttpServer",
+                    "paramTypes": ["java.lang.String", "java.lang.Integer"],
+                    "values": ["https://pixiv-forward-test-1.com", 5]
+                },
+                {
+                    "type": "net.mikoto.roxy.core.model.network.server.CurrentWeightedHttpServer",
+                    "paramTypes": ["java.lang.String", "java.lang.Integer"],
+                    "values": ["https://pixiv-forward-test-2.com", 10]
+                },{
+                    "type": "net.mikoto.roxy.core.model.network.server.CurrentWeightedHttpServer",
+                    "paramTypes": ["java.lang.String", "java.lang.Integer"],
+                    "values": ["https://pixiv-forward-test-3.com", 15]
                 }
             ]
         }

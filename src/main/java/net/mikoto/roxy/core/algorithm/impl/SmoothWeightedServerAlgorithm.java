@@ -16,12 +16,7 @@ import java.util.List;
  */
 @AlgorithmImpl(
         value = "RoxySmoothWeightedServerAlgorithm",
-        constructorParamsClasses = {
-                Server.class
-        },
-        constructorParamsContainers = {
-                ContainerType.LIST
-        }
+        constructorParamsContainer = ContainerType.LIST
 )
 public class SmoothWeightedServerAlgorithm implements ServerAlgorithm {
     private final List<? extends CurrentWeighted> SERVER_LIST;

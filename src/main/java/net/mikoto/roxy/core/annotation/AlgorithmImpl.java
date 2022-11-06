@@ -28,5 +28,5 @@ public @interface AlgorithmImpl {
     /**
      * @return The special object type container.(Auto create)
      */
-    ContainerType[] constructorParamsContainers() default {ContainerType.NO_CONTAINER};
+    ContainerType constructorParamsContainer() default ContainerType.NO_CONTAINER;
 }

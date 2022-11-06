@@ -1,14 +1,12 @@
 package net.mikoto.roxy.core.manager;
 
 import net.mikoto.roxy.core.algorithm.Algorithm;
-import net.mikoto.roxy.core.algorithm.ObjectAlgorithm;
 import net.mikoto.roxy.core.model.InstantiableObject;
 import net.mikoto.roxy.core.model.RoxyConfigModel;
 import net.mikoto.roxy.core.model.RoxyModel;
-import net.mikoto.roxy.core.model.SourceConfig;
+import net.mikoto.roxy.core.model.ResourceConfig;
 import org.springframework.stereotype.Component;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
@@ -35,21 +33,28 @@ public class RoxyModelManager {
 
         roxyModel.setRoxyDataModelClass(dataModelManager.getDataModelClass(modelName));
 
-        Algorithm<?>[] sourceAlgorithms = new ObjectAlgorithm[roxyConfigModel.getSources().length];
-        for (int i = 0; i < sourceAlgorithms.length; i++) {
-            SourceConfig sourceConfig = roxyConfigModel.getSources()[i];
-            InstantiableObject[] algorithmImplParams = sourceConfig.getAlgorithmImplParams();
+        // Get resource object
+        for (int i = 0; i < roxyConfigModel.getResources().length; i++) {
+            ResourceConfig resourceConfig = roxyConfigModel.getResources()[i];
+
+            // Instance the params object
+            InstantiableObject[] algorithmImplParams = resourceConfig.getAlgorithmImplParams();
             Object[] params = new Object[algorithmImplParams.length];
             for (int j = 0; j < params.length; j++) {
                 params[j] = InstantiableObject.instance(algorithmImplParams[j]);
             }
 
-            sourceAlgorithms[i] = algorithmManager.createAlgorithmByName(sourceConfig.getAlgorithmImplName(), params);
+            // Create resource algorithm
+            Algorithm<?> resource = algorithmManager.createAlgorithmByName(resourceConfig.getAlgorithmImplName(), params);
+            roxyModel.getResources().put(resourceConfig.getResourceName(), resource);
         }
-        roxyModel.setSource(sourceAlgorithms);
 
         roxyModelMap.put(modelName, roxyModel);
 
         return roxyModel;
+    }
+
+    public RoxyModel getRoxyModel(String roxyModelName) {
+        return roxyModelMap.get(roxyModelName);
     }
 }

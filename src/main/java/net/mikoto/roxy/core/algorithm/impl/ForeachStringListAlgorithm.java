@@ -14,9 +14,7 @@ import java.util.List;
  */
 @AlgorithmImpl(
         value = "RoxyForeachStringListAlgorithm",
-        constructorParamsContainers = {
-                ContainerType.LIST
-        }
+        constructorParamsContainer = ContainerType.LIST
 )
 public class ForeachStringListAlgorithm implements StringAlgorithm {
     private final List<String> routeValues;
