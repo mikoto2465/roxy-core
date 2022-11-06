@@ -66,6 +66,10 @@ public class AlgorithmManager {
         Class<?> algorithmClass = ALGORITHM_IMPL_CLASS.get(algorithmName);
         AlgorithmImpl algorithm = ALGORITHM_IMPL_INFO.get(algorithmName);
 
+        if (algorithm == null || algorithmClass == null) {
+            throw new NullPointerException();
+        }
+
         Class<?>[] classesArray = new Class[algorithm.constructorParamsClasses().length];
         if (algorithm.constructorParamsContainer() == ContainerType.NO_CONTAINER) {
             System.arraycopy(algorithm.constructorParamsClasses(), 0, classesArray, 0, algorithm.constructorParamsClasses().length);

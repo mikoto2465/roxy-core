@@ -1,16 +1,20 @@
 package net.mikoto.roxy.core;
 
 import com.dtflys.forest.springboot.annotation.ForestScan;
+import net.mikoto.roxy.core.algorithm.ObjectAlgorithm;
 import net.mikoto.roxy.core.algorithm.ServerAlgorithm;
 import net.mikoto.roxy.core.algorithm.StringAlgorithm;
+import net.mikoto.roxy.core.algorithm.impl.StaticObjectAlgorithm;
 import net.mikoto.roxy.core.manager.AlgorithmManager;
 import net.mikoto.roxy.core.manager.ConfigModelManager;
 import net.mikoto.roxy.core.manager.DataModelManager;
 import net.mikoto.roxy.core.manager.RoxyModelManager;
+import net.mikoto.roxy.core.model.Config;
 import net.mikoto.roxy.core.model.RoxyConfigModel;
 import net.mikoto.roxy.core.model.RoxyModel;
 import net.mikoto.roxy.core.model.network.server.CurrentWeightedHttpServer;
 import net.mikoto.roxy.core.model.network.server.HttpServer;
+import net.mikoto.roxy.core.scanner.ConfigScanner;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -21,10 +25,20 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+import static org.junit.jupiter.api.Assertions.*;
+
+@SpringBootTest(
+        webEnvironment = SpringBootTest.WebEnvironment.NONE,
+        classes = {
+                AlgorithmManager.class,
+                DataModelManager.class,
+                ConfigModelManager.class,
+                RoxyModelManager.class,
+                ConfigScanner.class,
+                Config.class
+        })
 @ComponentScan("net.mikoto.roxy")
 @ForestScan("net.mikoto.roxy")
-@SpringBootApplication
 class CoreApplicationTests {
 
     private final AlgorithmManager algorithmManager;
@@ -42,53 +56,31 @@ class CoreApplicationTests {
 
     @Test
     void algorithmManagerTest() throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
-        Object staticStringAlgorithm = algorithmManager.createAlgorithmByName(
-                "RoxyStaticStringAlgorithm",
+        Object staticObjectAlgorithm = algorithmManager.createAlgorithmByName(
+                "RoxyStaticObjectAlgorithm",
                 "test"
         );
-        if (staticStringAlgorithm instanceof StringAlgorithm) {
-            System.out.println(((StringAlgorithm) staticStringAlgorithm).run());
-        }
-
-        Object staticServerAlgorithm =
-                algorithmManager.createAlgorithmByName(
-                        "RoxyStaticServerAlgorithm",
-                        new HttpServer("http://testaddress")
-                );
-        if (staticServerAlgorithm instanceof ServerAlgorithm) {
-            System.out.println(((ServerAlgorithm) staticServerAlgorithm).run());
-        }
-
-        List<CurrentWeightedHttpServer> list = new ArrayList<>();
-        list.add(new CurrentWeightedHttpServer("http://testaddress1", 1));
-        list.add(new CurrentWeightedHttpServer("http://testaddress2", 2));
-        list.add(new CurrentWeightedHttpServer("http://testaddress3", 3));
-        list.add(new CurrentWeightedHttpServer("http://testaddress4", 4));
-        list.add(new CurrentWeightedHttpServer("http://testaddress5", 5));
-
-        Object SWSAlgorithm = algorithmManager.createAlgorithmByName("RoxySmoothWeightedServerAlgorithm", list);
-        if (SWSAlgorithm instanceof ServerAlgorithm) {
-            for (int i = 0; i < 20; i++) {
-                System.out.println(((ServerAlgorithm) SWSAlgorithm).run().getAddress());
-            }
-        }
-    }
-
-    @Test
-    void modelManagerTest() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
-        RoxyModel roxyModel = roxyModelManager.createModel("Artwork");
-        System.out.println(roxyModel.getResources().get("PixivOriginalResource").run());
-        System.out.println(roxyModel);
-
-        ServerAlgorithm pixivForwardResource = (ServerAlgorithm) roxyModel.getResources().get("PixivForwardResource");
-        for (int i = 0; i < 10; i++) {
-            System.out.println(pixivForwardResource.run());
-        }
+        assertInstanceOf(StaticObjectAlgorithm.class, staticObjectAlgorithm);
+        assertEquals("test", ((ObjectAlgorithm) staticObjectAlgorithm).run());
     }
 
     @Test
     void modelConfigManagerTest() {
         RoxyConfigModel roxyConfigModel = configModelManager.getModelConfig("Artwork");
-        System.out.println(roxyConfigModel);
+        assertEquals("Artwork", roxyConfigModel.getModelName());
+    }
+
+    @Test
+    void modelManagerTest() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+        RoxyModel roxyModel = roxyModelManager.createModel("Artwork");
+        assertEquals(new HttpServer("https://www.pixiv.net"), roxyModel.getResources().get("PixivOriginalResource").run());
+        assertEquals("Artwork", roxyModel.getModelName());
+
+        ServerAlgorithm pixivForwardResource = (ServerAlgorithm) roxyModel.getResources().get("PixivForwardResource");
+        assertEquals(new HttpServer("https://pixiv-forward-test-3.com"), pixivForwardResource.run());
+        assertEquals(new HttpServer("https://pixiv-forward-test-2.com"), pixivForwardResource.run());
+        assertEquals(new HttpServer("https://pixiv-forward-test-1.com"), pixivForwardResource.run());
+        assertEquals(new HttpServer("https://pixiv-forward-test-3.com"), pixivForwardResource.run());
+        assertEquals(new HttpServer("https://pixiv-forward-test-2.com"), pixivForwardResource.run());
     }
 }
