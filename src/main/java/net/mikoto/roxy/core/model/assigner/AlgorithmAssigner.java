@@ -1,11 +1,11 @@
-package net.mikoto.roxy.core.model.task;
+package net.mikoto.roxy.core.model.assigner;
 
 import net.mikoto.roxy.core.algorithm.Algorithm;
 import net.mikoto.roxy.core.model.AbstractHasAHashMapClass;
 
 import java.util.Map;
 
-public class AlgorithmTask extends AbstractHasAHashMapClass<Algorithm<?>> implements Task {
+public class AlgorithmAssigner extends AbstractHasAHashMapClass<Algorithm<?>> implements Assigner {
 
     @Override
     public Map<Object, Object> assign(Map<Object, Object> inputValue) {
@@ -14,5 +14,10 @@ public class AlgorithmTask extends AbstractHasAHashMapClass<Algorithm<?>> implem
             inputValue.put(entry.getKey(), entry.getValue().run());
         }
         return inputValue;
+    }
+
+    @Override
+    public void put(Object k, Object v) {
+        super.put((String) k, (Algorithm<?>) v);
     }
 }

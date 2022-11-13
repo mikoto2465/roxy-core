@@ -1,7 +1,10 @@
 {
     "modelName": "Artwork",
+
+    "resourcesAlgorithmName": "RoxySmoothWeightedObjectAlgorithm",
     "resources": [
         {
+            "weight": 1,
             "resourceName": "PixivOriginalResource",
             "algorithmName": "RoxyStaticObjectAlgorithm",
             "algorithmParams": [
@@ -10,11 +13,13 @@
                     "paramTypes": ["java.lang.String", "java.lang.String"],
                     "values": ["https://www.pixiv.net", "/ajax/illust/${id}"]
                 }
-            ]
+            ],
+            "assigner": "net.mikoto.roxy.core.model.assigner.AlgorithmAssigner"
         },
         {
+            "weight": 3,
             "resourceName": "PixivForwardResource",
-            "algorithmName": "RoxySmoothWeightedServerAlgorithm",
+            "algorithmName": "RoxySmoothWeightedObjectAlgorithm",
             "algorithmParams": [
                 {
                     "type": "net.mikoto.roxy.core.model.network.resource.CurrentWeightedHttpTarget",

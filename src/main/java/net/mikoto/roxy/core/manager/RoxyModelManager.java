@@ -42,8 +42,14 @@ public class RoxyModelManager extends AbstractHasAHashMapClass<RoxyModel> {
 
             // Create resource algorithm
             Algorithm<?> resourceAlgorithm = algorithmManager.createAlgorithmByName(resourceConfig.getAlgorithmName(), params);
-            Resource resource = new Resource(resourceConfig.getResourceName(), resourceAlgorithm);
+            Resource resource = new Resource(resourceConfig.getWeight(), resourceConfig.getResourceName(), resourceAlgorithm);
             roxyModel.getResources().put(resourceConfig.getResourceName(), resource);
+
+            Algorithm<?> resourcesAlgorithm = algorithmManager.createAlgorithmByName(
+                    roxyModelConfig.getResourcesAlgorithmName(),
+                    roxyModel.getResources().values().toArray()
+            );
+            roxyModel.setResourcesAlgorithm(resourcesAlgorithm);
         }
 
         super.put(modelName, roxyModel);

@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ResourceConfig {
+    private int weight;
     private String resourceName;
     private String algorithmName;
     private InstantiableObject[] algorithmParams;

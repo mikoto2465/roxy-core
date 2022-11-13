@@ -8,6 +8,7 @@ import net.mikoto.roxy.core.manager.ConfigModelManager;
 import net.mikoto.roxy.core.manager.DataModelManager;
 import net.mikoto.roxy.core.manager.RoxyModelManager;
 import net.mikoto.roxy.core.model.Config;
+import net.mikoto.roxy.core.model.Resource;
 import net.mikoto.roxy.core.model.config.RoxyModelConfig;
 import net.mikoto.roxy.core.model.RoxyModel;
 import net.mikoto.roxy.core.model.network.resource.HttpTarget;
@@ -82,12 +83,18 @@ class CoreApplicationTests {
         assertEquals(new HttpTarget("https://www.pixiv.net", "/ajax/illust/${id}"), roxyModel.getResources().get("PixivOriginalResource").getResourceAlgorithm().run());
         assertEquals("Artwork", roxyModel.getModelName());
 
-        HttpTargetAlgorithm pixivForwardResource = (HttpTargetAlgorithm) roxyModel.getResources().get("PixivForwardResource").getResourceAlgorithm();
+        Algorithm<?> pixivForwardResource = roxyModel.getResources().get("PixivForwardResource").getResourceAlgorithm();
         assertEquals(new HttpTarget("https://pixiv-forward-test-3.com", "/artwork/getInformation?artworkId=${id}"), pixivForwardResource.run());
         assertEquals(new HttpTarget("https://pixiv-forward-test-2.com", "/artwork/getInformation?artworkId=${id}"), pixivForwardResource.run());
         assertEquals(new HttpTarget("https://pixiv-forward-test-1.com", "/artwork/getInformation?artworkId=${id}"), pixivForwardResource.run());
         assertEquals(new HttpTarget("https://pixiv-forward-test-3.com", "/artwork/getInformation?artworkId=${id}"), pixivForwardResource.run());
         assertEquals(new HttpTarget("https://pixiv-forward-test-2.com", "/artwork/getInformation?artworkId=${id}"), pixivForwardResource.run());
+
+        for (int i = 0; i < 10; i++) {
+            Resource resource = (Resource) roxyModel.getResourcesAlgorithm().run();
+            HttpTarget httpTarget = (HttpTarget) resource.getResourceAlgorithm().run();
+            System.out.println(httpTarget);
+        }
     }
 
     @Test

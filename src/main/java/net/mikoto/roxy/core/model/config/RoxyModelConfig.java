@@ -9,5 +9,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class RoxyModelConfig {
     private String modelName;
+    private String resourcesAlgorithmName;
     private ResourceConfig[] resources;
 }
