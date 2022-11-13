@@ -1,4 +1,4 @@
-package net.mikoto.roxy.core.model;
+package net.mikoto.roxy.core.model.config;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

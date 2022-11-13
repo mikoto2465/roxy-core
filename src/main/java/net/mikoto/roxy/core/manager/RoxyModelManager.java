@@ -2,15 +2,15 @@ package net.mikoto.roxy.core.manager;
 
 import net.mikoto.roxy.core.algorithm.Algorithm;
 import net.mikoto.roxy.core.model.*;
-import net.mikoto.roxy.core.model.network.resource.HttpTarget;
+import net.mikoto.roxy.core.model.config.InstantiableObject;
+import net.mikoto.roxy.core.model.config.ResourceConfig;
+import net.mikoto.roxy.core.model.config.RoxyModelConfig;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.HashMap;
-import java.util.Map;
 
 @Component("RoxyModelManager")
-public class RoxyModelManager extends AbstractStringObjectHashMapManager<RoxyModel> {
+public class RoxyModelManager extends AbstractHasAHashMapClass<RoxyModel> {
     private final DataModelManager dataModelManager;
     private final ConfigModelManager configModelManager;
     private final AlgorithmManager algorithmManager;
@@ -23,15 +23,15 @@ public class RoxyModelManager extends AbstractStringObjectHashMapManager<RoxyMod
 
     public RoxyModel createModel(String modelName) throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         RoxyModel roxyModel = new RoxyModel();
-        RoxyConfigModel roxyConfigModel = configModelManager.get(modelName);
+        RoxyModelConfig roxyModelConfig = configModelManager.get(modelName);
 
         roxyModel.setModelName(modelName);
 
         roxyModel.setRoxyDataModelClass(dataModelManager.get(modelName));
 
         // Get resource object
-        for (int i = 0; i < roxyConfigModel.getResources().length; i++) {
-            ResourceConfig resourceConfig = roxyConfigModel.getResources()[i];
+        for (int i = 0; i < roxyModelConfig.getResources().length; i++) {
+            ResourceConfig resourceConfig = roxyModelConfig.getResources()[i];
 
             // Instance the params object
             InstantiableObject[] algorithmImplParams = resourceConfig.getAlgorithmParams();

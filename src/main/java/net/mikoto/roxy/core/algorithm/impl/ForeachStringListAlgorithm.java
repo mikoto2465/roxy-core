@@ -1,5 +1,6 @@
 package net.mikoto.roxy.core.algorithm.impl;
 
+import net.mikoto.roxy.core.algorithm.Algorithm;
 import net.mikoto.roxy.core.algorithm.ContainerType;
 import net.mikoto.roxy.core.algorithm.StringAlgorithm;
 import net.mikoto.roxy.core.annotation.AlgorithmImpl;

@@ -1,9 +1,9 @@
-package net.mikoto.roxy.core.manager;
+package net.mikoto.roxy.core.model;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class AbstractStringObjectHashMapManager<T> {
+public abstract class AbstractHasAHashMapClass<T> {
     protected final Map<String, T> dataMap = new HashMap<>();
 
     public T get(String name) {

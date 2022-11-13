@@ -1,4 +1,4 @@
-package net.mikoto.roxy.core.model;
+package net.mikoto.roxy.core.model.config;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class RoxyConfigModel {
+public class RoxyModelConfig {
     private String modelName;
     private ResourceConfig[] resources;
 }

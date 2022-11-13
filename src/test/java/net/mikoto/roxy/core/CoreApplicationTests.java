@@ -1,15 +1,14 @@
 package net.mikoto.roxy.core;
 
 import com.dtflys.forest.springboot.annotation.ForestScan;
-import net.mikoto.roxy.core.algorithm.ObjectAlgorithm;
-import net.mikoto.roxy.core.algorithm.HttpTargetAlgorithm;
+import net.mikoto.roxy.core.algorithm.*;
 import net.mikoto.roxy.core.algorithm.impl.StaticObjectAlgorithm;
 import net.mikoto.roxy.core.manager.AlgorithmManager;
 import net.mikoto.roxy.core.manager.ConfigModelManager;
 import net.mikoto.roxy.core.manager.DataModelManager;
 import net.mikoto.roxy.core.manager.RoxyModelManager;
 import net.mikoto.roxy.core.model.Config;
-import net.mikoto.roxy.core.model.RoxyConfigModel;
+import net.mikoto.roxy.core.model.config.RoxyModelConfig;
 import net.mikoto.roxy.core.model.RoxyModel;
 import net.mikoto.roxy.core.model.network.resource.HttpTarget;
 import net.mikoto.roxy.core.scanner.ConfigScanner;
@@ -19,6 +18,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.ComponentScan;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -62,9 +62,18 @@ class CoreApplicationTests {
     }
 
     @Test
+    void shardableAlgorithmTest() throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+        Algorithm<?> algorithm = algorithmManager.createAlgorithmByName("RoxyIntegerIncrementAlgorithm", 1, 12);
+        if (algorithm instanceof ShardableAlgorithm<?>) {
+            Algorithm<?>[] algorithms = ((ShardableAlgorithm<?>) algorithm).shard(10);
+            System.out.println(Arrays.toString(algorithms));
+        }
+    }
+
+    @Test
     void modelConfigManagerTest() {
-        RoxyConfigModel roxyConfigModel = configModelManager.get("Artwork");
-        assertEquals("Artwork", roxyConfigModel.getModelName());
+        RoxyModelConfig roxyModelConfig = configModelManager.get("Artwork");
+        assertEquals("Artwork", roxyModelConfig.getModelName());
     }
 
     @Test

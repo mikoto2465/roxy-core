@@ -4,14 +4,12 @@ import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
 import groovy.lang.GroovyClassLoader;
 import lombok.extern.log4j.Log4j2;
+import net.mikoto.roxy.core.model.AbstractHasAHashMapClass;
 import net.mikoto.roxy.core.model.RoxyDataModel;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Map;
 
 /**
  * @author mikoto
@@ -20,7 +18,7 @@ import java.util.Map;
  */
 @Component("RoxyDataModelManager")
 @Log4j2
-public class DataModelManager extends AbstractStringObjectHashMapManager<Class<? extends RoxyDataModel>> {
+public class DataModelManager extends AbstractHasAHashMapClass<Class<? extends RoxyDataModel>> {
     private static final GroovyClassLoader groovyClassLoader = new GroovyClassLoader();
 
     /**
