@@ -1,5 +1,6 @@
 package net.mikoto.roxy.core.manager;
 
+import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import net.mikoto.roxy.core.model.RoxyConfigModel;
 import org.springframework.stereotype.Component;
@@ -14,14 +15,8 @@ import java.util.Map;
  */
 @Component("RoxyConfigModelManager")
 @NoArgsConstructor
-public class ConfigModelManager {
-    private static final Map<String, RoxyConfigModel> modelConfigMap = new HashMap<>();
-
+public class ConfigModelManager extends AbstractStringObjectHashMapManager<RoxyConfigModel> {
     public void registerModelConfig(RoxyConfigModel roxyConfigModel) {
-        modelConfigMap.put(roxyConfigModel.getModelName(), roxyConfigModel);
-    }
-
-    public RoxyConfigModel getModelConfig(String modelName) {
-        return modelConfigMap.get(modelName);
+        this.put(roxyConfigModel.getModelName(), roxyConfigModel);
     }
 }

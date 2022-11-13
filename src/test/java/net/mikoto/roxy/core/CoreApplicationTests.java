@@ -2,7 +2,7 @@ package net.mikoto.roxy.core;
 
 import com.dtflys.forest.springboot.annotation.ForestScan;
 import net.mikoto.roxy.core.algorithm.ObjectAlgorithm;
-import net.mikoto.roxy.core.algorithm.ServerAlgorithm;
+import net.mikoto.roxy.core.algorithm.HttpTargetAlgorithm;
 import net.mikoto.roxy.core.algorithm.impl.StaticObjectAlgorithm;
 import net.mikoto.roxy.core.manager.AlgorithmManager;
 import net.mikoto.roxy.core.manager.ConfigModelManager;
@@ -11,16 +11,16 @@ import net.mikoto.roxy.core.manager.RoxyModelManager;
 import net.mikoto.roxy.core.model.Config;
 import net.mikoto.roxy.core.model.RoxyConfigModel;
 import net.mikoto.roxy.core.model.RoxyModel;
-import net.mikoto.roxy.core.model.network.server.HttpTarget;
+import net.mikoto.roxy.core.model.network.resource.HttpTarget;
 import net.mikoto.roxy.core.scanner.ConfigScanner;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.ComponentScan;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -63,17 +63,17 @@ class CoreApplicationTests {
 
     @Test
     void modelConfigManagerTest() {
-        RoxyConfigModel roxyConfigModel = configModelManager.getModelConfig("Artwork");
+        RoxyConfigModel roxyConfigModel = configModelManager.get("Artwork");
         assertEquals("Artwork", roxyConfigModel.getModelName());
     }
 
     @Test
     void modelManagerTest() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         RoxyModel roxyModel = roxyModelManager.createModel("Artwork");
-        assertEquals(new HttpTarget("https://www.pixiv.net", "/ajax/illust/${id}"), roxyModel.getResources().get("PixivOriginalResource").run());
+        assertEquals(new HttpTarget("https://www.pixiv.net", "/ajax/illust/${id}"), roxyModel.getResources().get("PixivOriginalResource").getResourceAlgorithm().run());
         assertEquals("Artwork", roxyModel.getModelName());
 
-        ServerAlgorithm pixivForwardResource = (ServerAlgorithm) roxyModel.getResources().get("PixivForwardResource");
+        HttpTargetAlgorithm pixivForwardResource = (HttpTargetAlgorithm) roxyModel.getResources().get("PixivForwardResource").getResourceAlgorithm();
         assertEquals(new HttpTarget("https://pixiv-forward-test-3.com", "/artwork/getInformation?artworkId=${id}"), pixivForwardResource.run());
         assertEquals(new HttpTarget("https://pixiv-forward-test-2.com", "/artwork/getInformation?artworkId=${id}"), pixivForwardResource.run());
         assertEquals(new HttpTarget("https://pixiv-forward-test-1.com", "/artwork/getInformation?artworkId=${id}"), pixivForwardResource.run());
@@ -82,13 +82,10 @@ class CoreApplicationTests {
     }
 
     @Test
-    void HttpTargetModelTest() throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException, NoSuchFieldException {
+    void HttpTargetModelTest() {
         HttpTarget httpTarget = new HttpTarget("https://www.pixiv.net", "/ajax/illust/${id}");
-        Class<?> dataModelClass = dataModelManager.getDataModelClass("Artwork");
-        Object dataModel = dataModelClass.getConstructor().newInstance();
-        Field artworkIdField = dataModelClass.getDeclaredField("artworkId");
-        artworkIdField.setAccessible(true);
-        artworkIdField.set(dataModel, 1);
-        assertEquals("https://www.pixiv.net/ajax/illust/1", httpTarget.getFullAddress(dataModelClass, dataModel));
+        Map<Object, Object> valueMap = new HashMap<>();
+        valueMap.put("id", 1);
+        assertEquals("https://www.pixiv.net/ajax/illust/1", httpTarget.getFullAddress(valueMap));
     }
 }

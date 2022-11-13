@@ -20,13 +20,8 @@ import java.util.Map;
  */
 @Component("RoxyDataModelManager")
 @Log4j2
-public class DataModelManager {
-    private static final Map<String, Class<? extends RoxyDataModel>> dataModelMap = new HashMap<>();
+public class DataModelManager extends AbstractStringObjectHashMapManager<Class<? extends RoxyDataModel>> {
     private static final GroovyClassLoader groovyClassLoader = new GroovyClassLoader();
-
-    public Class<? extends RoxyDataModel> getDataModelClass(String modelName) {
-        return dataModelMap.get(modelName);
-    }
 
     /**
      * Register a new model.
@@ -35,15 +30,15 @@ public class DataModelManager {
      * @param modelClass The model class.
      */
     public void registerModel(String modelName, Class<? extends RoxyDataModel> modelClass) {
-        dataModelMap.put(modelName, modelClass);
+        super.put(modelName, modelClass);
     }
 
     public Iterator<Class<? extends RoxyDataModel>> getIterator() {
-        return dataModelMap.values().iterator();
+        return super.dataMap.values().iterator();
     }
 
     public String[] getModelNames() {
-        return dataModelMap.keySet().toArray(new String[0]);
+        return super.dataMap.keySet().toArray(new String[0]);
     }
 
     @SuppressWarnings({"CastCanBeRemovedNarrowingVariableType", "unchecked"})

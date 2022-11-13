@@ -3,6 +3,7 @@ package net.mikoto.roxy.core.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import net.mikoto.roxy.core.model.network.resource.HttpTarget;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Constructor;

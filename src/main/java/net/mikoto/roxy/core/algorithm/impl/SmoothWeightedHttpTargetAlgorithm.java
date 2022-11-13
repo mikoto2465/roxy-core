@@ -1,9 +1,9 @@
 package net.mikoto.roxy.core.algorithm.impl;
 
 import net.mikoto.roxy.core.algorithm.ContainerType;
-import net.mikoto.roxy.core.algorithm.ServerAlgorithm;
+import net.mikoto.roxy.core.algorithm.HttpTargetAlgorithm;
 import net.mikoto.roxy.core.annotation.AlgorithmImpl;
-import net.mikoto.roxy.core.model.network.server.HttpTarget;
+import net.mikoto.roxy.core.model.network.resource.HttpTarget;
 import net.mikoto.roxy.core.model.network.weight.CurrentWeighted;
 
 import java.util.Iterator;
@@ -18,10 +18,10 @@ import java.util.List;
         value = "RoxySmoothWeightedServerAlgorithm",
         constructorParamsContainer = ContainerType.LIST
 )
-public class SmoothWeightedServerAlgorithm implements ServerAlgorithm {
+public class SmoothWeightedHttpTargetAlgorithm implements HttpTargetAlgorithm {
     private final List<? extends CurrentWeighted> SERVER_LIST;
 
-    public SmoothWeightedServerAlgorithm(List<? extends CurrentWeighted> list) {
+    public SmoothWeightedHttpTargetAlgorithm(List<? extends CurrentWeighted> list) {
         if (list != null && !list.isEmpty() && list.get(0) instanceof HttpTarget) {
             this.SERVER_LIST = list;
         } else {

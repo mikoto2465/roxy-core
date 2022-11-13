@@ -1,4 +1,4 @@
-package net.mikoto.roxy.core.model.network.server;
+package net.mikoto.roxy.core.model.network.resource;
 
 import lombok.Getter;
 import lombok.Setter;

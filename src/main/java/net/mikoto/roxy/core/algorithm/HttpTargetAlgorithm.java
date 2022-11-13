@@ -1,7 +1,7 @@
 package net.mikoto.roxy.core.algorithm;
 
 import net.mikoto.roxy.core.annotation.AlgorithmInterface;
-import net.mikoto.roxy.core.model.network.server.HttpTarget;
+import net.mikoto.roxy.core.model.network.resource.HttpTarget;
 
 /**
  * @author mikoto
@@ -9,9 +9,9 @@ import net.mikoto.roxy.core.model.network.server.HttpTarget;
  * Create for core
  */
 @AlgorithmInterface(
-        value = "RoxyServerAlgorithm",
+        value = "RoxyHttpTargetAlgorithm",
         resultClass = HttpTarget.class
 )
-public interface ServerAlgorithm extends ObjectAlgorithm {
+public interface HttpTargetAlgorithm extends ObjectAlgorithm {
     HttpTarget run(Object... objects);
 }
