@@ -2,10 +2,7 @@ package net.mikoto.roxy.core.manager;
 
 import net.mikoto.roxy.core.algorithm.Algorithm;
 import net.mikoto.roxy.core.model.*;
-import net.mikoto.roxy.core.model.config.InstantiableAlgorithm;
-import net.mikoto.roxy.core.model.config.InstantiableObject;
-import net.mikoto.roxy.core.model.config.ResourceConfig;
-import net.mikoto.roxy.core.model.config.RoxyModelConfig;
+import net.mikoto.roxy.core.model.config.*;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.InvocationTargetException;
@@ -47,6 +44,16 @@ public class RoxyModelManager extends AbstractHasAHashMapClass<RoxyModel> {
                 roxyModel.getResources().values().toArray()
         );
         roxyModel.setResourcesAlgorithm(resourcesAlgorithm);
+
+        // Create task
+        Task task = new Task();
+        TaskConfig taskConfig = roxyModelConfig.getTask();
+        task.setTaskAlgorithm(
+                InstantiableAlgorithm.instance(algorithmManager, taskConfig.getTaskAlgorithm())
+        );
+        task.setTaskCount(taskConfig.getTaskCount());
+        task.setThreadPoolConfig(taskConfig.getThreadPoolConfig());
+        roxyModel.setTask(task);
 
         super.put(modelName, roxyModel);
 

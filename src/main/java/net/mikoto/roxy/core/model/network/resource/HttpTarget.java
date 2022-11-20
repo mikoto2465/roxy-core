@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class HttpTarget {
+public class HttpTarget implements VariableResource<String>{
     private String address;
     private String route;
     private static final Pattern routeParam = Pattern.compile("\\$\\{\\w+?}");
@@ -32,5 +32,10 @@ public class HttpTarget {
         }
 
         return address + currentRoute;
+    }
+
+    @Override
+    public String getResource(Map<?, ?> arg) {
+        return getFullAddress(arg);
     }
 }

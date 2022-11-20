@@ -43,13 +43,15 @@ class CoreApplicationTests {
     private final DataModelManager dataModelManager;
     private final ConfigModelManager configModelManager;
     private final RoxyModelManager roxyModelManager;
+    private final Config config;
 
     @Autowired
-    CoreApplicationTests(AlgorithmManager algorithmManager, DataModelManager dataModelManager, ConfigModelManager configModelManager, RoxyModelManager roxyModelManager) {
+    CoreApplicationTests(AlgorithmManager algorithmManager, DataModelManager dataModelManager, ConfigModelManager configModelManager, RoxyModelManager roxyModelManager, Config config) {
         this.algorithmManager = algorithmManager;
         this.dataModelManager = dataModelManager;
         this.configModelManager = configModelManager;
         this.roxyModelManager = roxyModelManager;
+        this.config = config;
     }
 
     @Test
@@ -103,5 +105,13 @@ class CoreApplicationTests {
         Map<Object, Object> valueMap = new HashMap<>();
         valueMap.put("id", 1);
         assertEquals("https://www.pixiv.net/ajax/illust/1", httpTarget.getFullAddress(valueMap));
+    }
+
+    @Test
+    void RoxyPatcherTest() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+        RoxyModel roxyModel = roxyModelManager.createModel("Artwork");
+        RoxyPatcher roxyPatcher = new RoxyPatcher(roxyModel, config);
+
+        roxyPatcher.start();
     }
 }

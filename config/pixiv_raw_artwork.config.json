@@ -8,7 +8,7 @@
             "resourceName": "PixivOriginalResource",
             "resourceAlgorithm": {
                 "algorithmName": "RoxyStaticObjectAlgorithm",
-                "algorithmParams": [
+                "objectAlgorithmValues": [
                     {
                         "type": "net.mikoto.roxy.core.model.network.resource.HttpTarget",
                         "paramTypes": ["java.lang.String", "java.lang.String"],
@@ -22,7 +22,7 @@
             "resourceName": "PixivForwardResource",
             "resourceAlgorithm": {
                 "algorithmName": "RoxySmoothWeightedObjectAlgorithm",
-                "algorithmParams": [
+                "objectAlgorithmValues": [
                     {
                         "type": "net.mikoto.roxy.core.model.network.resource.CurrentWeightedHttpTarget",
                         "paramTypes": ["java.lang.String", "java.lang.String", "java.lang.Integer"],
@@ -43,9 +43,13 @@
     ],
 
     "task": {
-        "taskAlgorithm": {
-
+        "threadPoolConfig": {
+            "usingDefaultConfig": true
         },
-        "taskCount": 50
+        "taskAlgorithm": {
+            "algorithmName": "RoxyIntegerIncrementAlgorithm",
+            "algorithmValues": [1, 100]
+        },
+        "taskCount": 20
     }
 }
