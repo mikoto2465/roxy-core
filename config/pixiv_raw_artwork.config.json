@@ -6,36 +6,46 @@
         {
             "weight": 1,
             "resourceName": "PixivOriginalResource",
-            "algorithmName": "RoxyStaticObjectAlgorithm",
-            "algorithmParams": [
-                {
-                    "type": "net.mikoto.roxy.core.model.network.resource.HttpTarget",
-                    "paramTypes": ["java.lang.String", "java.lang.String"],
-                    "values": ["https://www.pixiv.net", "/ajax/illust/${id}"]
-                }
-            ],
-            "assigner": "net.mikoto.roxy.core.model.assigner.AlgorithmAssigner"
+            "resourceAlgorithm": {
+                "algorithmName": "RoxyStaticObjectAlgorithm",
+                "algorithmParams": [
+                    {
+                        "type": "net.mikoto.roxy.core.model.network.resource.HttpTarget",
+                        "paramTypes": ["java.lang.String", "java.lang.String"],
+                        "values": ["https://www.pixiv.net", "/ajax/illust/${id}"]
+                    }
+                ]
+            }
         },
         {
             "weight": 3,
             "resourceName": "PixivForwardResource",
-            "algorithmName": "RoxySmoothWeightedObjectAlgorithm",
-            "algorithmParams": [
-                {
-                    "type": "net.mikoto.roxy.core.model.network.resource.CurrentWeightedHttpTarget",
-                    "paramTypes": ["java.lang.String", "java.lang.String", "java.lang.Integer"],
-                    "values": ["https://pixiv-forward-test-1.com", "/artwork/getInformation?artworkId=${id}", 5]
-                },
-                {
-                    "type": "net.mikoto.roxy.core.model.network.resource.CurrentWeightedHttpTarget",
-                    "paramTypes": ["java.lang.String", "java.lang.String", "java.lang.Integer"],
-                    "values": ["https://pixiv-forward-test-2.com", "/artwork/getInformation?artworkId=${id}", 10]
-                },{
-                    "type": "net.mikoto.roxy.core.model.network.resource.CurrentWeightedHttpTarget",
-                    "paramTypes": ["java.lang.String", "java.lang.String", "java.lang.Integer"],
-                    "values": ["https://pixiv-forward-test-3.com", "/artwork/getInformation?artworkId=${id}", 15]
-                }
-            ]
+            "resourceAlgorithm": {
+                "algorithmName": "RoxySmoothWeightedObjectAlgorithm",
+                "algorithmParams": [
+                    {
+                        "type": "net.mikoto.roxy.core.model.network.resource.CurrentWeightedHttpTarget",
+                        "paramTypes": ["java.lang.String", "java.lang.String", "java.lang.Integer"],
+                        "values": ["https://pixiv-forward-test-1.com", "/artwork/getInformation?artworkId=${id}", 5]
+                    },
+                    {
+                        "type": "net.mikoto.roxy.core.model.network.resource.CurrentWeightedHttpTarget",
+                        "paramTypes": ["java.lang.String", "java.lang.String", "java.lang.Integer"],
+                        "values": ["https://pixiv-forward-test-2.com", "/artwork/getInformation?artworkId=${id}", 10]
+                    },{
+                        "type": "net.mikoto.roxy.core.model.network.resource.CurrentWeightedHttpTarget",
+                        "paramTypes": ["java.lang.String", "java.lang.String", "java.lang.Integer"],
+                        "values": ["https://pixiv-forward-test-3.com", "/artwork/getInformation?artworkId=${id}", 15]
+                    }
+                ]
+            }
         }
-    ]
+    ],
+
+    "task": {
+        "taskAlgorithm": {
+
+        },
+        "taskCount": 50
+    }
 }

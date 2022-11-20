@@ -12,8 +12,8 @@ import net.mikoto.roxy.core.annotation.AlgorithmImpl;
         }
 )
 public class IntegerIncrementAlgorithm implements StringAlgorithm, ShardableAlgorithm<String> {
-    private int last;// 0
-    private final int end;// 10
+    private int last;
+    private final int end;
     public IntegerIncrementAlgorithm(Integer start, Integer end) {
         if (start > end) {
             throw new RuntimeException("Start number cannot bigger than end number");
