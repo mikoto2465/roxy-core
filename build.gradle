@@ -68,6 +68,7 @@ dependencies {
     testImplementation 'org.apache.commons:commons-lang3:3.12.0'
     testImplementation 'com.alibaba:fastjson:2.0.16'
     testImplementation 'org.projectlombok:lombok'
+    implementation 'cn.hutool:hutool-all:5.8.10'
 }
 
 tasks.named('test') {
