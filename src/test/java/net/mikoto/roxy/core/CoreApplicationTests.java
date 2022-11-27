@@ -110,7 +110,7 @@ class CoreApplicationTests {
         roxyPatcher.start();
         Thread.sleep(5);
         while (roxyPatcher.getThreadCount() != 0) {
-            Thread.sleep(5);
+            Thread.sleep(1);
         }
     }
 }
