@@ -26,16 +26,7 @@
                     {
                         "type": "net.mikoto.roxy.core.model.network.resource.CurrentWeightedHttpTarget",
                         "paramTypes": ["java.lang.String", "java.lang.String", "java.lang.Integer"],
-                        "values": ["https://pixiv-forward-test-1.com", "/artwork/getInformation?artworkId=${id}", 5]
-                    },
-                    {
-                        "type": "net.mikoto.roxy.core.model.network.resource.CurrentWeightedHttpTarget",
-                        "paramTypes": ["java.lang.String", "java.lang.String", "java.lang.Integer"],
-                        "values": ["https://pixiv-forward-test-2.com", "/artwork/getInformation?artworkId=${id}", 10]
-                    },{
-                        "type": "net.mikoto.roxy.core.model.network.resource.CurrentWeightedHttpTarget",
-                        "paramTypes": ["java.lang.String", "java.lang.String", "java.lang.Integer"],
-                        "values": ["https://pixiv-forward-test-3.com", "/artwork/getInformation?artworkId=${id}", 15]
+                        "values": ["http://localhost:8081", "/artwork/getInformation?artworkId=${id}", 1]
                     }
                 ]
             }
@@ -43,13 +34,10 @@
     ],
 
     "task": {
-        "threadPoolConfig": {
-            "usingDefaultConfig": true
-        },
         "taskAlgorithm": {
             "algorithmName": "RoxyIntegerIncrementAlgorithm",
             "algorithmValues": [1, 100]
         },
-        "taskCount": 20
+        "taskCount": 10
     }
 }

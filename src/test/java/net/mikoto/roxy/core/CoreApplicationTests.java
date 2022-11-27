@@ -86,11 +86,7 @@ class CoreApplicationTests {
         assertEquals("Artwork", roxyModel.getModelName());
 
         Algorithm<?> pixivForwardResource = roxyModel.getResources().get("PixivForwardResource").getResourceAlgorithm();
-        assertEquals(new HttpTarget("https://pixiv-forward-test-3.com", "/artwork/getInformation?artworkId=${id}"), pixivForwardResource.run());
-        assertEquals(new HttpTarget("https://pixiv-forward-test-2.com", "/artwork/getInformation?artworkId=${id}"), pixivForwardResource.run());
-        assertEquals(new HttpTarget("https://pixiv-forward-test-1.com", "/artwork/getInformation?artworkId=${id}"), pixivForwardResource.run());
-        assertEquals(new HttpTarget("https://pixiv-forward-test-3.com", "/artwork/getInformation?artworkId=${id}"), pixivForwardResource.run());
-        assertEquals(new HttpTarget("https://pixiv-forward-test-2.com", "/artwork/getInformation?artworkId=${id}"), pixivForwardResource.run());
+        assertEquals(new HttpTarget("http://localhost:8081", "/artwork/getInformation?artworkId=${id}"), pixivForwardResource.run());
 
         for (int i = 0; i < 10; i++) {
             Resource resource = (Resource) roxyModel.getResourcesAlgorithm().run();
@@ -108,10 +104,13 @@ class CoreApplicationTests {
     }
 
     @Test
-    void RoxyPatcherTest() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    void RoxyPatcherTest() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException, InterruptedException {
         RoxyModel roxyModel = roxyModelManager.createModel("Artwork");
         RoxyPatcher roxyPatcher = new RoxyPatcher(roxyModel, config);
-
         roxyPatcher.start();
+        Thread.sleep(5);
+        while (roxyPatcher.getThreadCount() != 0) {
+            Thread.sleep(5);
+        }
     }
 }

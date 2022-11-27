@@ -33,28 +33,5 @@ public class Config {
     private String modelSuffix = ".model" + fileSuffix;
     private String configSuffix = ".config" + fileSuffix;
     private String[] algorithmPackages = new String[]{"net.mikoto.roxy.core.algorithm"};
-    private HttpHandler<?, ?, ?> httpHandler = new HttpHandler<ForestRequest<?>, String, HttpTarget>() {
-        @Override
-        public String run(@NotNull Object httpRequest) {
-            if (httpRequest instanceof ForestRequest<?>) {
-                return ((ForestRequest<?>) httpRequest).execute(ForestResponse.class).getContent();
-            } else {
-                throw new RuntimeException();
-            }
-        }
-
-        @NotNull
-        @Override
-        public ForestRequest<?> getRequest(Object httpTarget, @NotNull Object... objects) {
-            ForestRequest<?> forestRequest = Forest.request();
-            if (objects[0] instanceof Map<?,?> && httpTarget instanceof HttpTarget) {
-                forestRequest.url(((HttpTarget) httpTarget).getFullAddress((Map<?, ?>) objects[0]));
-                return forestRequest;
-            } else {
-                throw new IllegalArgumentException();
-            }
-        }
-    };
-
 
 }

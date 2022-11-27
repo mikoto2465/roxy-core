@@ -1,6 +1,10 @@
 package net.mikoto.roxy.core;
 
 import cn.hutool.core.thread.ThreadFactoryBuilder;
+import com.dtflys.forest.Forest;
+import com.dtflys.forest.exceptions.ForestNetworkException;
+import com.dtflys.forest.http.ForestResponse;
+import com.dtflys.forest.utils.TypeReference;
 import lombok.extern.log4j.Log4j2;
 import net.mikoto.roxy.core.algorithm.Algorithm;
 import net.mikoto.roxy.core.algorithm.ShardableAlgorithm;
@@ -11,12 +15,13 @@ import net.mikoto.roxy.core.model.Task;
 import net.mikoto.roxy.core.model.config.ThreadPoolConfig;
 import net.mikoto.roxy.core.model.network.HttpHandler;
 import net.mikoto.roxy.core.model.network.resource.HttpTarget;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.io.IOException;
+import java.util.*;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 
@@ -52,6 +57,7 @@ public class RoxyPatcher {
 
             List<Algorithm<?>> tasksList;
 
+            //
             Task task = roxyModel.getTask();
             // To check if it is a single thread task
             if (task.getTaskCount() != 1) {
@@ -79,11 +85,23 @@ public class RoxyPatcher {
                         HttpTarget httpTarget = (HttpTarget) resource.getResourceAlgorithm().run();
                         Map<String, String> paramsMap = new HashMap<>();
                         paramsMap.put("id", currentId);
-                        log.info("Using resource -> " + resource.getResourceName() + " ; httpTarget -> " + httpTarget.getAddress() + " ; id -> " + paramsMap.get("id"));
+                        String fullAddress = httpTarget.getFullAddress(paramsMap);
+
+                        String response;
+                        try {
+                            response = Forest.get(fullAddress).executeAsString();
+                            System.out.println("Do request to -> " + fullAddress + "\n Result -> " + response);
+                        } catch (ForestNetworkException e) {
+                            System.out.println("Do request to -> " + fullAddress + " -> " + e.getStatusCode());
+                        }
                         currentId = (String) currentTask.run();
                     }
                 });
             }
         }
+    }
+
+    public int getThreadCount() {
+        return this.threadPoolExecutor.getActiveCount();
     }
 }

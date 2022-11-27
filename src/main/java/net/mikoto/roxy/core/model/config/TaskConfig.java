@@ -6,7 +6,7 @@ import java.util.Map;
 
 @Data
 public class TaskConfig {
-    private ThreadPoolConfig threadPoolConfig;
+    private ThreadPoolConfig threadPoolConfig = new ThreadPoolConfig();
     private InstantiableAlgorithm taskAlgorithm;
     private int taskCount;
 }
