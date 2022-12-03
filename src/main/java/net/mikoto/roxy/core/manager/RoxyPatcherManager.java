@@ -14,26 +14,23 @@ import java.util.List;
 @Component("RoxyPatcherManager")
 public class RoxyPatcherManager extends AbstractHasAHashMapClass<RoxyPatcher> {
     private final RoxyModelManager roxyModelManager;
-    private static final List<Observer<?>> observers = new ArrayList<>();
 
     @Autowired
     public RoxyPatcherManager(RoxyModelManager roxyModelManager) {
         this.roxyModelManager = roxyModelManager;
     }
 
-    /**
-     * Create a patcher with a model.
-     *
-     * @param modelName The model name
-     * @return The patcher.
-     */
-    public RoxyPatcher createPatcher(String modelName) throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
-        RoxyModel roxyModel = roxyModelManager.createModel(modelName);
-        RoxyPatcher<?> roxyPatcher = new RoxyPatcher<>(roxyModel);
-        for (Observer<?> observer : roxyModel.getTask().getTaskObservers()) {
+    public RoxyPatcher createPatcher(RoxyModel roxyModel) {
+        RoxyPatcher roxyPatcher = new RoxyPatcher(roxyModel);
+        for (Observer observer : roxyModel.getTask().getTaskObservers()) {
             roxyPatcher.register(observer);
         }
         return roxyPatcher;
+    }
+
+    public RoxyPatcher createPatcher(String modelName) throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+        RoxyModel roxyModel = roxyModelManager.createModel(modelName);
+        return createPatcher(roxyModel);
     }
 
     public void stopAll() {

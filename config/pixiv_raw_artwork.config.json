@@ -37,7 +37,7 @@
         "taskObservers" : [
             {
                 "type": "net.mikoto.roxy.core.observer.impl.ProgressiveObserver",
-                "generics" : ["java.lang.Integer"],
+                "paramTypes": ["java.lang.Integer"],
                 "values": [100]
             }
         ],

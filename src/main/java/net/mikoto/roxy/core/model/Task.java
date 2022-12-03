@@ -11,7 +11,7 @@ import java.util.Map;
 @Data
 public class Task {
     private Algorithm<?> taskAlgorithm;
-    private Observer<?>[] taskObservers;
+    private Observer[] taskObservers;
     private int taskCount;
     private ThreadPoolConfig threadPoolConfig;
 }

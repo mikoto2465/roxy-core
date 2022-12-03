@@ -28,7 +28,7 @@ public class ModelHandler extends FileHandler {
         if (file.getName().endsWith(config.getModelSuffix())) {
             JSONObject modelJson = JSONObject.parseObject(readFile(file));
             String modelName = modelJson.getString("modelName");
-            dataModelManager.registerModel(modelName, generateModelClass(config.getModelPackage(), modelJson));
+            dataModelManager.register(modelName, generateModelClass(config.getModelPackage(), modelJson));
             log.info("[Roxy] Found model -> " + modelName);
         }
     }

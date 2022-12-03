@@ -3,15 +3,13 @@ package net.mikoto.roxy.core;
 import com.dtflys.forest.springboot.annotation.ForestScan;
 import net.mikoto.roxy.core.algorithm.*;
 import net.mikoto.roxy.core.algorithm.impl.StaticObjectAlgorithm;
-import net.mikoto.roxy.core.manager.AlgorithmManager;
-import net.mikoto.roxy.core.manager.ConfigModelManager;
-import net.mikoto.roxy.core.manager.DataModelManager;
-import net.mikoto.roxy.core.manager.RoxyModelManager;
+import net.mikoto.roxy.core.manager.*;
 import net.mikoto.roxy.core.model.Config;
 import net.mikoto.roxy.core.model.Resource;
 import net.mikoto.roxy.core.model.config.RoxyModelConfig;
 import net.mikoto.roxy.core.model.RoxyModel;
 import net.mikoto.roxy.core.model.network.resource.HttpTarget;
+import net.mikoto.roxy.core.observer.impl.ProgressiveObserver;
 import net.mikoto.roxy.core.scanner.ConfigScanner;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,14 +41,16 @@ class CoreApplicationTests {
     private final DataModelManager dataModelManager;
     private final ConfigModelManager configModelManager;
     private final RoxyModelManager roxyModelManager;
+    private final RoxyPatcherManager roxyPatcherManager;
     private final Config config;
 
     @Autowired
-    CoreApplicationTests(AlgorithmManager algorithmManager, DataModelManager dataModelManager, ConfigModelManager configModelManager, RoxyModelManager roxyModelManager, Config config) {
+    CoreApplicationTests(AlgorithmManager algorithmManager, DataModelManager dataModelManager, ConfigModelManager configModelManager, RoxyModelManager roxyModelManager, RoxyPatcherManager roxyPatcherManager, Config config) {
         this.algorithmManager = algorithmManager;
         this.dataModelManager = dataModelManager;
         this.configModelManager = configModelManager;
         this.roxyModelManager = roxyModelManager;
+        this.roxyPatcherManager = roxyPatcherManager;
         this.config = config;
     }
 
@@ -106,11 +106,11 @@ class CoreApplicationTests {
     @Test
     void RoxyPatcherTest() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException, InterruptedException {
         RoxyModel roxyModel = roxyModelManager.createModel("Artwork");
-        RoxyPatcher roxyPatcher = new RoxyPatcher(roxyModel);
+        RoxyPatcher roxyPatcher = roxyPatcherManager.createPatcher(roxyModel);
         roxyPatcher.start();
-        Thread.sleep(5);
         while (roxyPatcher.getThreadCount() != 0) {
-            Thread.sleep(1);
+            ((ProgressiveObserver) (roxyModel.getTask().getTaskObservers()[0])).getPercent();
+            Thread.sleep(500);
         }
     }
 }

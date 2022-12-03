@@ -53,9 +53,9 @@ public class RoxyModelManager extends AbstractRegistrableManager<RoxyModel> {
                 InstantiableAlgorithm.instance(algorithmManager, taskConfig.getTaskAlgorithm())
         );
         // Instance observers
-        Observer<?>[] observers = new Observer[taskConfig.getTaskObservers().length];
+        Observer[] observers = new Observer[taskConfig.getTaskObservers().length];
         for (int i = 0; i < taskConfig.getTaskObservers().length; i++) {
-            observers[i] = (Observer<?>) InstantiableObject.instance(taskConfig.getTaskObservers()[i]);
+            observers[i] = (Observer) InstantiableObject.instance(taskConfig.getTaskObservers()[i]);
         }
         task.setTaskObservers(observers);
         task.setTaskCount(taskConfig.getTaskCount());

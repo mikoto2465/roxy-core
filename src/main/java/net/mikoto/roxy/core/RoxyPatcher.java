@@ -20,7 +20,7 @@ import java.util.*;
 import java.util.concurrent.ThreadPoolExecutor;
 
 @Log4j2
-public class RoxyPatcher<T> extends Observable<T> {
+public class RoxyPatcher extends Observable {
     private final RoxyModel roxyModel;
     private boolean startFlag = false;
 
@@ -82,10 +82,11 @@ public class RoxyPatcher<T> extends Observable<T> {
                         String response;
                         try {
                             response = Forest.get(fullAddress).executeAsString();
-                            System.out.println("Do request to -> " + fullAddress + "\n Result -> " + response);
+//                            log.info("Do request to -> " + fullAddress + "\n Result -> ");
                         } catch (ForestNetworkException e) {
-                            System.out.println("Do request to -> " + fullAddress + " -> " + e.getStatusCode());
+                            log.info("Do request to -> " + fullAddress + " -> " + e.getStatusCode());
                         }
+                        super.notify(currentId);
                         currentId = (String) currentTask.run();
                     }
                 });

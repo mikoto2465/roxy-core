@@ -4,18 +4,19 @@ import net.mikoto.roxy.core.observer.Observer;
 import org.apache.logging.log4j.Logger;
 
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
 
-public class ProgressiveObserver<T> extends Observer<T> {
+public class ProgressiveObserver extends Observer {
     private final Integer total;
     private Integer count = 0;
-    private static final DecimalFormat decimalFormat = new DecimalFormat("##.0000%");
+    private static final NumberFormat numberFormat = new DecimalFormat("0.0");
 
     public ProgressiveObserver(Integer total) {
         this.total = total;
     }
 
     @Override
-    public void doAfterUpdate(T target) {
+    public void doAfterUpdate(Object target) {
         count++;
     }
 
@@ -28,8 +29,8 @@ public class ProgressiveObserver<T> extends Observer<T> {
     }
 
     public String getPercent() {
-        String percent = decimalFormat.format(getCount() / getTotal());
-        super.getLogger().info("Observer " + super.getName() + " -> " + percent);
+        String percent = numberFormat.format(getCount() * 100 / getTotal()) + "%";
+        super.getLogger().info("Observer -> " + percent);
         return percent;
     }
 }
