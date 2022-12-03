@@ -8,34 +8,26 @@ import com.dtflys.forest.utils.TypeReference;
 import lombok.extern.log4j.Log4j2;
 import net.mikoto.roxy.core.algorithm.Algorithm;
 import net.mikoto.roxy.core.algorithm.ShardableAlgorithm;
-import net.mikoto.roxy.core.model.Config;
 import net.mikoto.roxy.core.model.Resource;
 import net.mikoto.roxy.core.model.RoxyModel;
 import net.mikoto.roxy.core.model.Task;
 import net.mikoto.roxy.core.model.config.ThreadPoolConfig;
-import net.mikoto.roxy.core.model.network.HttpHandler;
 import net.mikoto.roxy.core.model.network.resource.HttpTarget;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
+import net.mikoto.roxy.core.observer.Observable;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.IOException;
 import java.util.*;
-import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 
 @Log4j2
-public class RoxyPatcher {
+public class RoxyPatcher<T> extends Observable<T> {
     private final RoxyModel roxyModel;
-    private final Config config;
     private boolean startFlag = false;
 
     private final ThreadPoolExecutor threadPoolExecutor;
 
-    public RoxyPatcher(@NotNull RoxyModel roxyModel, Config config) {
+    public RoxyPatcher(@NotNull RoxyModel roxyModel) {
         this.roxyModel = roxyModel;
-        this.config = config;
         ThreadPoolConfig threadPoolConfig = roxyModel.getTask().getThreadPoolConfig();
         threadPoolExecutor = new ThreadPoolExecutor(
                 threadPoolConfig.getCorePoolSize(),

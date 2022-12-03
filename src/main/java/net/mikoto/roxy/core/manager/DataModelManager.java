@@ -18,26 +18,8 @@ import java.util.Iterator;
  */
 @Component("RoxyDataModelManager")
 @Log4j2
-public class DataModelManager extends AbstractHasAHashMapClass<Class<? extends RoxyDataModel>> {
+public class DataModelManager extends AbstractRegistrableManager<Class<? extends RoxyDataModel>> {
     private static final GroovyClassLoader groovyClassLoader = new GroovyClassLoader();
-
-    /**
-     * Register a new model.
-     *
-     * @param modelName The model name.
-     * @param modelClass The model class.
-     */
-    public void registerModel(String modelName, Class<? extends RoxyDataModel> modelClass) {
-        super.put(modelName, modelClass);
-    }
-
-    public Iterator<Class<? extends RoxyDataModel>> getIterator() {
-        return super.dataMap.values().iterator();
-    }
-
-    public String[] getModelNames() {
-        return super.dataMap.keySet().toArray(new String[0]);
-    }
 
     @SuppressWarnings({"CastCanBeRemovedNarrowingVariableType", "unchecked"})
     public static Class<? extends RoxyDataModel> generateModelClass(String packageName, @NotNull JSONObject roxyModel) {

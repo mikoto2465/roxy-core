@@ -3,12 +3,13 @@ package net.mikoto.roxy.core.manager;
 import net.mikoto.roxy.core.algorithm.Algorithm;
 import net.mikoto.roxy.core.model.*;
 import net.mikoto.roxy.core.model.config.*;
+import net.mikoto.roxy.core.observer.Observer;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.InvocationTargetException;
 
 @Component("RoxyModelManager")
-public class RoxyModelManager extends AbstractHasAHashMapClass<RoxyModel> {
+public class RoxyModelManager extends AbstractRegistrableManager<RoxyModel> {
     private final DataModelManager dataModelManager;
     private final ConfigModelManager configModelManager;
     private final AlgorithmManager algorithmManager;
@@ -51,11 +52,17 @@ public class RoxyModelManager extends AbstractHasAHashMapClass<RoxyModel> {
         task.setTaskAlgorithm(
                 InstantiableAlgorithm.instance(algorithmManager, taskConfig.getTaskAlgorithm())
         );
+        // Instance observers
+        Observer<?>[] observers = new Observer[taskConfig.getTaskObservers().length];
+        for (int i = 0; i < taskConfig.getTaskObservers().length; i++) {
+            observers[i] = (Observer<?>) InstantiableObject.instance(taskConfig.getTaskObservers()[i]);
+        }
+        task.setTaskObservers(observers);
         task.setTaskCount(taskConfig.getTaskCount());
         task.setThreadPoolConfig(taskConfig.getThreadPoolConfig());
         roxyModel.setTask(task);
 
-        super.put(modelName, roxyModel);
+        super.register(modelName, roxyModel);
 
         return roxyModel;
     }

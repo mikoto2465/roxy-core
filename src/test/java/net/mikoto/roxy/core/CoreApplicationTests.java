@@ -106,7 +106,7 @@ class CoreApplicationTests {
     @Test
     void RoxyPatcherTest() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException, InterruptedException {
         RoxyModel roxyModel = roxyModelManager.createModel("Artwork");
-        RoxyPatcher roxyPatcher = new RoxyPatcher(roxyModel, config);
+        RoxyPatcher roxyPatcher = new RoxyPatcher(roxyModel);
         roxyPatcher.start();
         Thread.sleep(5);
         while (roxyPatcher.getThreadCount() != 0) {
