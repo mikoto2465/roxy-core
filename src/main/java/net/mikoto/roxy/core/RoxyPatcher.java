@@ -1,10 +1,8 @@
 package net.mikoto.roxy.core;
 
-import cn.hutool.core.thread.ThreadFactoryBuilder;
+import com.alibaba.fastjson2.JSONObject;
 import com.dtflys.forest.Forest;
 import com.dtflys.forest.exceptions.ForestNetworkException;
-import com.dtflys.forest.http.ForestResponse;
-import com.dtflys.forest.utils.TypeReference;
 import lombok.extern.log4j.Log4j2;
 import net.mikoto.roxy.core.algorithm.Algorithm;
 import net.mikoto.roxy.core.algorithm.ShardableAlgorithm;
@@ -14,6 +12,7 @@ import net.mikoto.roxy.core.model.Task;
 import net.mikoto.roxy.core.model.config.ThreadPoolConfig;
 import net.mikoto.roxy.core.model.network.resource.HttpTarget;
 import net.mikoto.roxy.core.observer.Observable;
+import net.mikoto.roxy.core.storage.Storage;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
@@ -73,6 +72,7 @@ public class RoxyPatcher extends Observable {
                 threadPoolExecutor.execute(() -> {
                     String currentId = (String) currentTask.run();
                     while (currentId != null) {
+                        // Prepare for the request.
                         Resource resource = (Resource) roxyModel.getResourcesAlgorithm().run();
                         HttpTarget httpTarget = (HttpTarget) resource.getResourceAlgorithm().run();
                         Map<String, String> paramsMap = new HashMap<>();
@@ -81,11 +81,24 @@ public class RoxyPatcher extends Observable {
 
                         String response;
                         try {
+                            // Do request
                             response = Forest.get(fullAddress).executeAsString();
-//                            log.info("Do request to -> " + fullAddress + "\n Result -> ");
+                            log.info("Do request to -> " + fullAddress + "\n Result -> ");
+
+                            // Do storage
+                            for (Map.Entry<String, Storage> entry : roxyModel.getStorages().entrySet()){
+                                log.info("Do store to -> " + entry.getKey());
+                                try {
+                                    entry.getValue().store(currentId, currentId, JSONObject.parse(response).getObject("body", roxyModel.getRoxyDataModelClass()));
+                                } catch (Exception e) {
+                                    throw new RuntimeException(e);
+                                }
+                            }
+
                         } catch (ForestNetworkException e) {
                             log.info("Do request to -> " + fullAddress + " -> " + e.getStatusCode());
                         }
+
                         super.notify(currentId);
                         currentId = (String) currentTask.run();
                     }

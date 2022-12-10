@@ -18,7 +18,7 @@ public final class FileUtil {
     public static void createDir(@NotNull String dirName) {
         File dir = new File(System.getProperty("user.dir") + dirName);
         if (!dir.exists()) {
-            if (!dir.mkdir()) {
+            if (!dir.mkdirs()) {
                 System.err.println("Can't create dir");
             }
         }
@@ -52,6 +52,7 @@ public final class FileUtil {
      */
     public static void writeFile(@NotNull File file, @NotNull String input) throws IOException {
         if (!file.exists()) {
+            createDir(file.getParent());
             if (file.createNewFile()) {
                 FileWriter fileWriter = new FileWriter(file);
                 fileWriter.write(input);

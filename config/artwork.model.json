@@ -1,87 +1,31 @@
 {
     "modelName": "Artwork",
-    "idFieldName": "artworkId",
-    "tableName": "artwork",
-    "field": [
-        {
-            "name": "artworkId",
-            "type": "int",
-            "columnName": "pk_artwork_id"
-        },{
-            "name": "artworkTitle",
-            "type": "String"
-        },{
-            "name": "authorId",
-            "type": "int"
-        },{
-            "name": "artworkName",
-            "type": "String"
-        },{
-            "name": "hasSeries",
-            "type": "boolean"
-        },{
-            "name": "description",
-            "type": "String"
-        },{
-            "name": "illustUrlSmall",
-            "type": "String"
-        },{
-            "name": "illustUrlOriginal",
-            "type": "String"
-        },{
-            "name": "illustUrlMini",
-            "type": "String"
-        },{
-            "name": "illustUrlThumb",
-            "type": "String"
-        },{
-            "name": "illustUrlRegular",
-            "type": "String"
-        },{
-            "name": "pageCount",
-            "type": "int"
-        },{
-            "name": "bookmarkCount",
-            "type": "int"
-        },{
-            "name": "likeCount",
-            "type": "int"
-        },{
-            "name": "viewCount",
-            "type": "int"
-        },{
-            "name": "grading",
-            "type": "int"
-        },{
-            "name": "tags",
-            "type": "String"
-        },{
-            "name": "createTime",
-            "type": "java.util.Date"
-        },{
-            "name": "updateTime",
-            "type": "java.util.Date"
-        },{
-            "name": "patchTime",
-            "type": "java.util.Date"
-        },{
-            "name": "seriesId",
-            "type": "int"
-        },{
-            "name": "seriesOrder",
-            "type": "int"
-        },{
-            "name": "nextArtworkId",
-            "type": "int"
-        },{
-            "name": "nextArtworkTitle",
-            "type": "String"
-        },{
-            "name": "previousArtworkId",
-            "type": "int"
-        },{
-            "name": "previousArtworkTitle",
-            "type": "String"
-        }
+    "fields": [
+        ["java.lang.Integer", "artworkId"],
+        ["java.lang.String", "artworkTitle"],
+        ["java.lang.Integer", "authorId"],
+        ["java.lang.String", "authorName"],
+        ["java.lang.Boolean", "hasSeries"],
+        ["java.lang.String", "description"],
+        ["java.lang.String", "illustUrlSmall"],
+        ["java.lang.String", "illustUrlOriginal"],
+        ["java.lang.String", "illustUrlMini"],
+        ["java.lang.String", "illustUrlThumb"],
+        ["java.lang.String", "illustUrlRegular"],
+        ["java.lang.Integer", "pageCount"],
+        ["java.lang.Integer", "bookmarkCount"],
+        ["java.lang.Integer", "likeCount"],
+        ["java.lang.Integer", "viewCount"],
+        ["java.lang.Integer", "grading"],
+        ["java.lang.String", "tags"],
+        ["java.util.Date", "createTime"],
+        ["java.util.Date", "updateTime"],
+        ["java.util.Date", "patchTime"],
+        ["java.lang.Integer", "seriesId"],
+        ["java.lang.Integer", "seriesOrder"],
+        ["java.lang.Integer", "nextArtworkId"],
+        ["java.lang.String", "nextArtworkTitle"],
+        ["java.lang.Integer", "previousArtworkId"],
+        ["java.lang.String", "previousArtworkTitle"]
     ]
 }

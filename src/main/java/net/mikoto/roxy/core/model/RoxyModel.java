@@ -3,6 +3,7 @@ package net.mikoto.roxy.core.model;
 import lombok.Data;
 import net.mikoto.roxy.core.algorithm.Algorithm;
 import net.mikoto.roxy.core.model.assigner.Assigner;
+import net.mikoto.roxy.core.storage.Storage;
 
 import java.util.HashMap;
 import java.util.Map;

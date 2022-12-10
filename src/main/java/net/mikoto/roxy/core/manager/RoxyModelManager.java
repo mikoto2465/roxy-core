@@ -4,9 +4,12 @@ import net.mikoto.roxy.core.algorithm.Algorithm;
 import net.mikoto.roxy.core.model.*;
 import net.mikoto.roxy.core.model.config.*;
 import net.mikoto.roxy.core.observer.Observer;
+import net.mikoto.roxy.core.storage.Storage;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.HashMap;
+import java.util.Map;
 
 @Component("RoxyModelManager")
 public class RoxyModelManager extends AbstractRegistrableManager<RoxyModel> {
@@ -46,12 +49,20 @@ public class RoxyModelManager extends AbstractRegistrableManager<RoxyModel> {
         );
         roxyModel.setResourcesAlgorithm(resourcesAlgorithm);
 
+        // Instance storages
+        Map<String, Storage> storageMap = new HashMap<>();
+        for (Map.Entry<String, InstantiableObject> entry : roxyModelConfig.getStorages().entrySet()){
+            storageMap.put(entry.getKey(), (Storage) InstantiableObject.instance(entry.getValue()));
+        }
+        roxyModel.setStorages(storageMap);
+
         // Create task
         Task task = new Task();
         TaskConfig taskConfig = roxyModelConfig.getTask();
         task.setTaskAlgorithm(
                 InstantiableAlgorithm.instance(algorithmManager, taskConfig.getTaskAlgorithm())
         );
+
         // Instance observers
         Observer[] observers = new Observer[taskConfig.getTaskObservers().length];
         for (int i = 0; i < taskConfig.getTaskObservers().length; i++) {

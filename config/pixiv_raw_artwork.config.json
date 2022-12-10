@@ -4,20 +4,6 @@
     "resourcesAlgorithmName": "RoxySmoothWeightedObjectAlgorithm",
     "resources": [
         {
-            "weight": 1,
-            "resourceName": "PixivOriginalResource",
-            "resourceAlgorithm": {
-                "algorithmName": "RoxyStaticObjectAlgorithm",
-                "objectAlgorithmValues": [
-                    {
-                        "type": "net.mikoto.roxy.core.model.network.resource.HttpTarget",
-                        "paramTypes": ["java.lang.String", "java.lang.String"],
-                        "values": ["https://www.pixiv.net", "/ajax/illust/${id}"]
-                    }
-                ]
-            }
-        },
-        {
             "weight": 3,
             "resourceName": "PixivForwardResource",
             "resourceAlgorithm": {
@@ -33,6 +19,14 @@
         }
     ],
 
+    "storages": {
+        "local_JSON": {
+            "type": "net.mikoto.roxy.core.storage.impl.LocalJsonStorage",
+            "paramTypes": ["java.lang.String"],
+            "values": ["/storage/"]
+        }
+    },
+
     "task": {
         "taskObservers" : [
             {
@@ -43,7 +37,7 @@
         ],
         "taskAlgorithm": {
             "algorithmName": "RoxyIntegerIncrementAlgorithm",
-            "algorithmValues": [1, 100]
+            "algorithmValues": [19, 100]
         },
         "taskCount": 10
     }
