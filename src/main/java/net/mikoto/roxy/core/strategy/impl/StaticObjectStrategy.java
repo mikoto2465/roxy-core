@@ -1,7 +1,6 @@
-package net.mikoto.roxy.core.algorithm.impl;
+package net.mikoto.roxy.core.strategy.impl;
 
-import net.mikoto.roxy.core.algorithm.Algorithm;
-import net.mikoto.roxy.core.algorithm.ObjectAlgorithm;
+import net.mikoto.roxy.core.strategy.ObjectStrategy;
 import net.mikoto.roxy.core.annotation.AlgorithmImpl;
 
 /**
@@ -15,10 +14,10 @@ import net.mikoto.roxy.core.annotation.AlgorithmImpl;
                 Object.class
         }
 )
-public class StaticObjectAlgorithm implements ObjectAlgorithm {
+public class StaticObjectStrategy implements ObjectStrategy {
     private final Object object;
 
-    public StaticObjectAlgorithm(Object object) {
+    public StaticObjectStrategy(Object object) {
         this.object = object;
     }
 

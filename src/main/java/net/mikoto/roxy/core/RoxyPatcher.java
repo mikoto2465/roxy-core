@@ -4,8 +4,8 @@ import com.alibaba.fastjson2.JSONObject;
 import com.dtflys.forest.Forest;
 import com.dtflys.forest.exceptions.ForestNetworkException;
 import lombok.extern.log4j.Log4j2;
-import net.mikoto.roxy.core.algorithm.Algorithm;
-import net.mikoto.roxy.core.algorithm.ShardableAlgorithm;
+import net.mikoto.roxy.core.strategy.Strategy;
+import net.mikoto.roxy.core.strategy.ShardableStrategy;
 import net.mikoto.roxy.core.model.Resource;
 import net.mikoto.roxy.core.model.RoxyModel;
 import net.mikoto.roxy.core.model.Task;
@@ -46,17 +46,17 @@ public class RoxyPatcher extends Observable {
         if (!startFlag) {
             startFlag = true;
 
-            List<Algorithm<?>> tasksList;
+            List<Strategy<?>> tasksList;
 
             //
             Task task = roxyModel.getTask();
             // To check if it is a single thread task
             if (task.getTaskCount() != 1) {
-                Algorithm<?> taskAlgorithm =task.getTaskAlgorithm();
-                if (taskAlgorithm instanceof ShardableAlgorithm<?>) {
+                Strategy<?> taskStrategy =task.getTaskStrategy();
+                if (taskStrategy instanceof ShardableStrategy<?>) {
                     tasksList = new ArrayList<>(
                             List.of(
-                                    ((ShardableAlgorithm<?>) taskAlgorithm).shard(task.getTaskCount())
+                                    ((ShardableStrategy<?>) taskStrategy).shard(task.getTaskCount())
                             )
                     );
                 } else {
@@ -64,17 +64,17 @@ public class RoxyPatcher extends Observable {
                 }
             } else {
                 tasksList = new ArrayList<>();
-                tasksList.add(task.getTaskAlgorithm());
+                tasksList.add(task.getTaskStrategy());
             }
 
-            for (Algorithm<?> currentTask :
+            for (Strategy<?> currentTask :
                     tasksList) {
                 threadPoolExecutor.execute(() -> {
                     String currentId = (String) currentTask.run();
                     while (currentId != null) {
                         // Prepare for the request.
-                        Resource resource = (Resource) roxyModel.getResourcesAlgorithm().run();
-                        HttpTarget httpTarget = (HttpTarget) resource.getResourceAlgorithm().run();
+                        Resource resource = (Resource) roxyModel.getResourcesStrategy().run();
+                        HttpTarget httpTarget = (HttpTarget) resource.getResourceStrategy().run();
                         Map<String, String> paramsMap = new HashMap<>();
                         paramsMap.put("id", currentId);
                         String fullAddress = httpTarget.getFullAddress(paramsMap);

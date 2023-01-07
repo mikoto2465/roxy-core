@@ -1,14 +1,14 @@
 {
     "modelName": "Artwork",
 
-    "resourcesAlgorithmName": "RoxySmoothWeightedObjectAlgorithm",
+    "resourcesStrategyName": "RoxySmoothWeightedObjectAlgorithm",
     "resources": [
         {
             "weight": 3,
             "resourceName": "PixivForwardResource",
-            "resourceAlgorithm": {
-                "algorithmName": "RoxySmoothWeightedObjectAlgorithm",
-                "objectAlgorithmValues": [
+            "resourceStrategy": {
+                "strategyName": "RoxySmoothWeightedObjectAlgorithm",
+                "objectStrategyValues": [
                     {
                         "type": "net.mikoto.roxy.core.model.network.resource.CurrentWeightedHttpTarget",
                         "paramTypes": ["java.lang.String", "java.lang.String", "java.lang.Integer"],
@@ -35,9 +35,9 @@
                 "values": [100]
             }
         ],
-        "taskAlgorithm": {
-            "algorithmName": "RoxyIntegerIncrementAlgorithm",
-            "algorithmValues": [19, 100]
+        "taskStrategy": {
+            "strategyName": "RoxyIntegerIncrementAlgorithm",
+            "strategyValues": [19, 100]
         },
         "taskCount": 10
     }

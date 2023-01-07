@@ -1,8 +1,8 @@
-package net.mikoto.roxy.core.algorithm.impl;
+package net.mikoto.roxy.core.strategy.impl;
 
-import net.mikoto.roxy.core.algorithm.Algorithm;
-import net.mikoto.roxy.core.algorithm.ShardableAlgorithm;
-import net.mikoto.roxy.core.algorithm.StringAlgorithm;
+import net.mikoto.roxy.core.strategy.Strategy;
+import net.mikoto.roxy.core.strategy.ShardableStrategy;
+import net.mikoto.roxy.core.strategy.StringStrategy;
 import net.mikoto.roxy.core.annotation.AlgorithmImpl;
 
 @AlgorithmImpl(
@@ -11,10 +11,10 @@ import net.mikoto.roxy.core.annotation.AlgorithmImpl;
                 Integer.class, Integer.class
         }
 )
-public class IntegerIncrementAlgorithm implements StringAlgorithm, ShardableAlgorithm<String> {
+public class IntegerIncrementStrategy implements StringStrategy, ShardableStrategy<String> {
     private int last;
     private final int end;
-    public IntegerIncrementAlgorithm(Integer start, Integer end) {
+    public IntegerIncrementStrategy(Integer start, Integer end) {
         if (start > end) {
             throw new RuntimeException("Start number cannot bigger than end number");
         }
@@ -32,9 +32,9 @@ public class IntegerIncrementAlgorithm implements StringAlgorithm, ShardableAlgo
     }
 
     @Override
-    public Algorithm<String>[] shard(int piecesCount) {
+    public Strategy<String>[] shard(int piecesCount) {
         int stepSize = (int) Math.floor((double) end / (double) piecesCount);
-        Algorithm<String>[] algorithms = new IntegerIncrementAlgorithm[piecesCount];
+        Strategy<String>[] strategies = new IntegerIncrementStrategy[piecesCount];
         int remainder = end - (piecesCount * stepSize);
         int currentRemainder = remainder;
         for (int i = 0; i < piecesCount; i++) {
@@ -51,9 +51,9 @@ public class IntegerIncrementAlgorithm implements StringAlgorithm, ShardableAlgo
             }
 
             if (startNum <= endNum) {
-                algorithms[i] = new IntegerIncrementAlgorithm(startNum, endNum);
+                strategies[i] = new IntegerIncrementStrategy(startNum, endNum);
             }
         }
-        return algorithms;
+        return strategies;
     }
 }

@@ -1,4 +1,4 @@
-package net.mikoto.roxy.core.algorithm;
+package net.mikoto.roxy.core.strategy;
 
 import java.util.List;
 

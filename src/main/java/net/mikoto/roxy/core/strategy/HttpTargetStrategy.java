@@ -1,4 +1,4 @@
-package net.mikoto.roxy.core.algorithm;
+package net.mikoto.roxy.core.strategy;
 
 import net.mikoto.roxy.core.annotation.AlgorithmInterface;
 import net.mikoto.roxy.core.model.network.resource.HttpTarget;
@@ -12,6 +12,7 @@ import net.mikoto.roxy.core.model.network.resource.HttpTarget;
         value = "RoxyHttpTargetAlgorithm",
         resultClass = HttpTarget.class
 )
-public interface HttpTargetAlgorithm extends ObjectAlgorithm {
-    HttpTarget run(Object... objects);
+public interface HttpTargetStrategy extends ObjectStrategy {
+    HttpTarget
+    run(Object... objects);
 }

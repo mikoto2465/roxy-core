@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <environments default="development">
+        <environment id="development">
+            <transactionManager type="JDBC" />
+            <dataSource type="net.mikoto.roxy.core.factory.MyDruidDataSourceFactory">
+                <property name="driver" value="com.mysql.cj.jdbc.Driver" />
+                <property name="url" value="jdbc:mysql://localhost:3306/pixiv" />
+                <property name="username" value="mikoto" />
+                <property name="password" value="xVnmbSMK85Yibvx" />
+                <property name="maxActive" value="30"/>
+                <property name="initialSize" value="30"/>
+                <property name="minIdle" value="30"/>
+                <property name="testWhileIdle" value="false"/>
+            </dataSource>
+        </environment>
+    </environments>
+
+    <mappers>
+        <mapper resource="YukinoDataMapper.xml"/>
+    </mappers>
+</configuration>

@@ -1,6 +1,6 @@
 package net.mikoto.roxy.core.annotation;
 
-import net.mikoto.roxy.core.algorithm.ContainerType;
+import net.mikoto.roxy.core.strategy.ContainerType;
 
 import java.lang.annotation.*;
 

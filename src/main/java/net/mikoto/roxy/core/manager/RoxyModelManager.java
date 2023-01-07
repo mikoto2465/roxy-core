@@ -1,35 +1,35 @@
 package net.mikoto.roxy.core.manager;
 
-import net.mikoto.roxy.core.algorithm.Algorithm;
+import net.mikoto.roxy.core.strategy.Strategy;
 import net.mikoto.roxy.core.model.*;
 import net.mikoto.roxy.core.model.config.*;
 import net.mikoto.roxy.core.observer.Observer;
 import net.mikoto.roxy.core.storage.Storage;
-import org.springframework.stereotype.Component;
+import net.mikoto.yukino.manager.YukinoModelManager;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
 
-@Component("RoxyModelManager")
 public class RoxyModelManager extends AbstractRegistrableManager<RoxyModel> {
-    private final DataModelManager dataModelManager;
-    private final ConfigModelManager configModelManager;
-    private final AlgorithmManager algorithmManager;
+    private final RoxyModelConfigManager roxyModelConfigManager;
+    private final YukinoModelManager yukinoModelManager;
 
-    public RoxyModelManager(DataModelManager dataModelManager, ConfigModelManager configModelManager, AlgorithmManager algorithmManager) {
-        this.dataModelManager = dataModelManager;
-        this.configModelManager = configModelManager;
-        this.algorithmManager = algorithmManager;
+    public RoxyModelManager(RoxyModelConfigManager roxyModelConfigManager, YukinoModelManager yukinoModelManager) {
+        this.roxyModelConfigManager = roxyModelConfigManager;
+        this.yukinoModelManager = yukinoModelManager;
     }
 
-    public RoxyModel createModel(String modelName) throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    public RoxyModel createModel(String modelName, String yukinoModelName) throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+        if (yukinoModelName == null) {
+            yukinoModelName = modelName;
+        }
         RoxyModel roxyModel = new RoxyModel();
-        RoxyModelConfig roxyModelConfig = configModelManager.get(modelName);
+        RoxyModelConfig roxyModelConfig = roxyModelConfigManager.get(modelName);
 
         roxyModel.setModelName(modelName);
 
-        roxyModel.setRoxyDataModelClass(dataModelManager.get(modelName));
+        roxyModel.setYukinoModel(yukinoModelManager.get(modelName));
 
         // Get resource object
         for (int i = 0; i < roxyModelConfig.getResources().length; i++) {
@@ -37,17 +37,17 @@ public class RoxyModelManager extends AbstractRegistrableManager<RoxyModel> {
             ResourceConfig resourceConfig = roxyModelConfig.getResources()[i];
 
             // Create algorithm in each resource
-            Algorithm<?> resourceAlgorithm = InstantiableAlgorithm.instance(algorithmManager, resourceConfig.getResourceAlgorithm());
-            Resource resource = new Resource(resourceConfig.getWeight(), resourceConfig.getResourceName(), resourceAlgorithm);
+            Strategy<?> resourceStrategy = InstantiableStrategy.instance(strategyManager, resourceConfig.getResourceStrategy());
+            Resource resource = new Resource(resourceConfig.getWeight(), resourceConfig.getResourceName(), resourceStrategy);
             roxyModel.getResources().put(resourceConfig.getResourceName(), resource);
         }
 
         // Create resource algorithm
-        Algorithm<?> resourcesAlgorithm = algorithmManager.createAlgorithmByName(
-                roxyModelConfig.getResourcesAlgorithmName(),
+        Strategy<?> resourcesStrategy = strategyManager.createAlgorithmByName(
+                roxyModelConfig.getResourcesStrategyName(),
                 roxyModel.getResources().values().toArray()
         );
-        roxyModel.setResourcesAlgorithm(resourcesAlgorithm);
+        roxyModel.setResourcesStrategy(resourcesStrategy);
 
         // Instance storages
         Map<String, Storage> storageMap = new HashMap<>();
@@ -59,8 +59,8 @@ public class RoxyModelManager extends AbstractRegistrableManager<RoxyModel> {
         // Create task
         Task task = new Task();
         TaskConfig taskConfig = roxyModelConfig.getTask();
-        task.setTaskAlgorithm(
-                InstantiableAlgorithm.instance(algorithmManager, taskConfig.getTaskAlgorithm())
+        task.setTaskStrategy(
+                InstantiableStrategy.instance(strategyManager, taskConfig.getTaskStrategy())
         );
 
         // Instance observers

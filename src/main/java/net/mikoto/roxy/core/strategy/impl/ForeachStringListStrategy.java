@@ -1,8 +1,7 @@
-package net.mikoto.roxy.core.algorithm.impl;
+package net.mikoto.roxy.core.strategy.impl;
 
-import net.mikoto.roxy.core.algorithm.Algorithm;
-import net.mikoto.roxy.core.algorithm.ContainerType;
-import net.mikoto.roxy.core.algorithm.StringAlgorithm;
+import net.mikoto.roxy.core.strategy.ContainerType;
+import net.mikoto.roxy.core.strategy.StringStrategy;
 import net.mikoto.roxy.core.annotation.AlgorithmImpl;
 import org.jetbrains.annotations.NotNull;
 
@@ -17,12 +16,12 @@ import java.util.List;
         value = "RoxyForeachStringListAlgorithm",
         constructorParamsContainer = ContainerType.LIST
 )
-public class ForeachStringListAlgorithm implements StringAlgorithm {
+public class ForeachStringListStrategy implements StringStrategy {
     private final List<String> routeValues;
     private int currentIndex = 0;
     private final int maxIndex;
 
-    public ForeachStringListAlgorithm(@NotNull List<String> routeValues) {
+    public ForeachStringListStrategy(@NotNull List<String> routeValues) {
         this.routeValues = routeValues;
         maxIndex = routeValues.size() - 1;
     }

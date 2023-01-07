@@ -1,8 +1,8 @@
 package net.mikoto.roxy.core;
 
 import com.dtflys.forest.springboot.annotation.ForestScan;
-import net.mikoto.roxy.core.algorithm.*;
-import net.mikoto.roxy.core.algorithm.impl.StaticObjectAlgorithm;
+import net.mikoto.roxy.core.strategy.*;
+import net.mikoto.roxy.core.strategy.impl.StaticObjectStrategy;
 import net.mikoto.roxy.core.manager.*;
 import net.mikoto.roxy.core.model.Config;
 import net.mikoto.roxy.core.model.Resource;
@@ -10,7 +10,6 @@ import net.mikoto.roxy.core.model.config.RoxyModelConfig;
 import net.mikoto.roxy.core.model.RoxyModel;
 import net.mikoto.roxy.core.model.network.resource.HttpTarget;
 import net.mikoto.roxy.core.observer.impl.ProgressiveObserver;
-import net.mikoto.roxy.core.scanner.ConfigScanner;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -26,9 +25,9 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest(
         webEnvironment = SpringBootTest.WebEnvironment.NONE,
         classes = {
-                AlgorithmManager.class,
+                StrategyManager.class,
                 DataModelManager.class,
-                ConfigModelManager.class,
+                RoxyModelConfigManager.class,
                 RoxyModelManager.class,
                 ConfigScanner.class,
                 Config.class
@@ -37,18 +36,18 @@ import static org.junit.jupiter.api.Assertions.*;
 @ForestScan("net.mikoto.roxy")
 class CoreApplicationTests {
 
-    private final AlgorithmManager algorithmManager;
+    private final StrategyManager strategyManager;
     private final DataModelManager dataModelManager;
-    private final ConfigModelManager configModelManager;
+    private final RoxyModelConfigManager roxyModelConfigManager;
     private final RoxyModelManager roxyModelManager;
     private final RoxyPatcherManager roxyPatcherManager;
     private final Config config;
 
     @Autowired
-    CoreApplicationTests(AlgorithmManager algorithmManager, DataModelManager dataModelManager, ConfigModelManager configModelManager, RoxyModelManager roxyModelManager, RoxyPatcherManager roxyPatcherManager, Config config) {
-        this.algorithmManager = algorithmManager;
+    CoreApplicationTests(StrategyManager strategyManager, DataModelManager dataModelManager, RoxyModelConfigManager roxyModelConfigManager, RoxyModelManager roxyModelManager, RoxyPatcherManager roxyPatcherManager, Config config) {
+        this.strategyManager = strategyManager;
         this.dataModelManager = dataModelManager;
-        this.configModelManager = configModelManager;
+        this.roxyModelConfigManager = roxyModelConfigManager;
         this.roxyModelManager = roxyModelManager;
         this.roxyPatcherManager = roxyPatcherManager;
         this.config = config;
@@ -56,41 +55,41 @@ class CoreApplicationTests {
 
     @Test
     void algorithmManagerTest() throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
-        Object staticObjectAlgorithm = algorithmManager.createAlgorithmByName(
+        Object staticObjectAlgorithm = strategyManager.createAlgorithmByName(
                 "RoxyStaticObjectAlgorithm",
                 "test"
         );
-        assertInstanceOf(StaticObjectAlgorithm.class, staticObjectAlgorithm);
-        assertEquals("test", ((ObjectAlgorithm) staticObjectAlgorithm).run());
+        assertInstanceOf(StaticObjectStrategy.class, staticObjectAlgorithm);
+        assertEquals("test", ((ObjectStrategy) staticObjectAlgorithm).run());
     }
 
     @Test
     void shardableAlgorithmTest() throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
-        Algorithm<?> algorithm = algorithmManager.createAlgorithmByName("RoxyIntegerIncrementAlgorithm", 1, 12);
-        if (algorithm instanceof ShardableAlgorithm<?>) {
-            Algorithm<?>[] algorithms = ((ShardableAlgorithm<?>) algorithm).shard(10);
-            System.out.println(Arrays.toString(algorithms));
+        Strategy<?> strategy = strategyManager.createAlgorithmByName("RoxyIntegerIncrementAlgorithm", 1, 12);
+        if (strategy instanceof ShardableStrategy<?>) {
+            Strategy<?>[] strategies = ((ShardableStrategy<?>) strategy).shard(10);
+            System.out.println(Arrays.toString(strategies));
         }
     }
 
     @Test
     void modelConfigManagerTest() {
-        RoxyModelConfig roxyModelConfig = configModelManager.get("Artwork");
+        RoxyModelConfig roxyModelConfig = roxyModelConfigManager.get("Artwork");
         assertEquals("Artwork", roxyModelConfig.getModelName());
     }
 
     @Test
     void modelManagerTest() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         RoxyModel roxyModel = roxyModelManager.createModel("Artwork");
-        assertEquals(new HttpTarget("https://www.pixiv.net", "/ajax/illust/${id}"), roxyModel.getResources().get("PixivOriginalResource").getResourceAlgorithm().run());
+        assertEquals(new HttpTarget("https://www.pixiv.net", "/ajax/illust/${id}"), roxyModel.getResources().get("PixivOriginalResource").getResourceStrategy().run());
         assertEquals("Artwork", roxyModel.getModelName());
 
-        Algorithm<?> pixivForwardResource = roxyModel.getResources().get("PixivForwardResource").getResourceAlgorithm();
+        Strategy<?> pixivForwardResource = roxyModel.getResources().get("PixivForwardResource").getResourceStrategy();
         assertEquals(new HttpTarget("http://localhost:8081", "/artwork/getInformation?artworkId=${id}"), pixivForwardResource.run());
 
         for (int i = 0; i < 10; i++) {
-            Resource resource = (Resource) roxyModel.getResourcesAlgorithm().run();
-            HttpTarget httpTarget = (HttpTarget) resource.getResourceAlgorithm().run();
+            Resource resource = (Resource) roxyModel.getResourcesStrategy().run();
+            HttpTarget httpTarget = (HttpTarget) resource.getResourceStrategy().run();
             System.out.println(httpTarget);
         }
     }

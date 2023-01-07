@@ -1,9 +1,7 @@
-package net.mikoto.roxy.core.algorithm;
-
-import net.mikoto.roxy.core.annotation.AlgorithmInterface;
+package net.mikoto.roxy.core.strategy;
 
 
-public interface Algorithm<T> {
+public interface Strategy<T> {
     /**
      * Run this algorithm.
      *
