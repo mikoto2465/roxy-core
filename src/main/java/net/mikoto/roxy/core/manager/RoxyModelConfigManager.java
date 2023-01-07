@@ -3,7 +3,6 @@ package net.mikoto.roxy.core.manager;
 import lombok.NoArgsConstructor;
 import net.mikoto.roxy.core.model.AbstractHasAHashMapClass;
 import net.mikoto.roxy.core.model.config.RoxyModelConfig;
-import org.springframework.context.annotation.Bean;
 
 /**
  * @author mikoto

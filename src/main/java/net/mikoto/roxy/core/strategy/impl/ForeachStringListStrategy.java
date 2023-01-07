@@ -1,8 +1,6 @@
 package net.mikoto.roxy.core.strategy.impl;
 
-import net.mikoto.roxy.core.strategy.ContainerType;
 import net.mikoto.roxy.core.strategy.StringStrategy;
-import net.mikoto.roxy.core.annotation.AlgorithmImpl;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -12,10 +10,6 @@ import java.util.List;
  * @date 2022/10/15
  * Create for core
  */
-@AlgorithmImpl(
-        value = "RoxyForeachStringListAlgorithm",
-        constructorParamsContainer = ContainerType.LIST
-)
 public class ForeachStringListStrategy implements StringStrategy {
     private final List<String> routeValues;
     private int currentIndex = 0;

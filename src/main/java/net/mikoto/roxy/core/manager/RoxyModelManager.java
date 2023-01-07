@@ -1,6 +1,5 @@
 package net.mikoto.roxy.core.manager;
 
-import net.mikoto.roxy.core.strategy.Strategy;
 import net.mikoto.roxy.core.model.*;
 import net.mikoto.roxy.core.model.config.*;
 import net.mikoto.roxy.core.observer.Observer;
@@ -20,7 +19,7 @@ public class RoxyModelManager extends AbstractRegistrableManager<RoxyModel> {
         this.yukinoModelManager = yukinoModelManager;
     }
 
-    public RoxyModel createModel(String modelName, String yukinoModelName) throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    public RoxyModel createModel(String modelName, String yukinoModelName) {
         if (yukinoModelName == null) {
             yukinoModelName = modelName;
         }

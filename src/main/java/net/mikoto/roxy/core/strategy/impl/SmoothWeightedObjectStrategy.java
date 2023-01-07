@@ -1,8 +1,6 @@
 package net.mikoto.roxy.core.strategy.impl;
 
-import net.mikoto.roxy.core.strategy.ContainerType;
 import net.mikoto.roxy.core.strategy.ObjectStrategy;
-import net.mikoto.roxy.core.annotation.AlgorithmImpl;
 import net.mikoto.roxy.core.model.network.weight.CurrentWeighted;
 
 import java.util.Iterator;
@@ -13,10 +11,6 @@ import java.util.List;
  * @date 2022/10/22
  * Create for core
  */
-@AlgorithmImpl(
-        value = "RoxySmoothWeightedObjectAlgorithm",
-        constructorParamsContainer = ContainerType.LIST
-)
 public class SmoothWeightedObjectStrategy implements ObjectStrategy {
     private final List<? extends CurrentWeighted> SERVER_LIST;
 

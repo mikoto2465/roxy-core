@@ -3,7 +3,6 @@ package net.mikoto.roxy.core.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import net.mikoto.roxy.core.strategy.Strategy;
 import net.mikoto.roxy.core.model.network.weight.CurrentWeighted;
 
 @Data

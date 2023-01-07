@@ -1,5 +1,7 @@
 package net.mikoto.roxy.core.strategy;
 
+import net.mikoto.yukino.strategy.Strategy;
+
 /**
  * @author mikoto
  * @date 2022/10/15

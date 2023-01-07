@@ -8,11 +8,6 @@ import net.mikoto.roxy.core.model.network.resource.HttpTarget;
  * @date 2022/10/22
  * Create for core
  */
-@AlgorithmInterface(
-        value = "RoxyHttpTargetAlgorithm",
-        resultClass = HttpTarget.class
-)
 public interface HttpTargetStrategy extends ObjectStrategy {
-    HttpTarget
-    run(Object... objects);
+    HttpTarget run(Object... objects);
 }

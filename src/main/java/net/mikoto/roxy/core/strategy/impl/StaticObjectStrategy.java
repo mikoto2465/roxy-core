@@ -8,12 +8,6 @@ import net.mikoto.roxy.core.annotation.AlgorithmImpl;
  * @date 2022/10/23
  * Create for core
  */
-@AlgorithmImpl(
-        value = "RoxyStaticObjectAlgorithm",
-        constructorParamsClasses = {
-                Object.class
-        }
-)
 public class StaticObjectStrategy implements ObjectStrategy {
     private final Object object;
 

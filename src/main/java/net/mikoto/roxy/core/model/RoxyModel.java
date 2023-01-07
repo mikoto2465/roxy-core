@@ -1,7 +1,6 @@
 package net.mikoto.roxy.core.model;
 
 import lombok.Data;
-import net.mikoto.roxy.core.strategy.Strategy;
 import net.mikoto.roxy.core.storage.Storage;
 import net.mikoto.yukino.model.YukinoModel;
 

@@ -8,8 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.List;
 
 @Component("RoxyPatcherManager")
 public class RoxyPatcherManager extends AbstractHasAHashMapClass<RoxyPatcher> {

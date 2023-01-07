@@ -1,6 +1,5 @@
 package net.mikoto.roxy.core.model.assigner;
 
-import net.mikoto.roxy.core.strategy.Strategy;
 import net.mikoto.roxy.core.model.AbstractHasAHashMapClass;
 
 import java.util.Map;

@@ -1,16 +1,10 @@
 package net.mikoto.roxy.core.strategy.impl;
 
-import net.mikoto.roxy.core.strategy.Strategy;
 import net.mikoto.roxy.core.strategy.ShardableStrategy;
 import net.mikoto.roxy.core.strategy.StringStrategy;
 import net.mikoto.roxy.core.annotation.AlgorithmImpl;
+import net.mikoto.yukino.strategy.Strategy;
 
-@AlgorithmImpl(
-        value = "RoxyIntegerIncrementAlgorithm",
-        constructorParamsClasses = {
-                Integer.class, Integer.class
-        }
-)
 public class IntegerIncrementStrategy implements StringStrategy, ShardableStrategy<String> {
     private int last;
     private final int end;

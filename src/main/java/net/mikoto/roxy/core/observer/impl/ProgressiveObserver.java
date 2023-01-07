@@ -1,7 +1,6 @@
 package net.mikoto.roxy.core.observer.impl;
 
 import net.mikoto.roxy.core.observer.Observer;
-import org.apache.logging.log4j.Logger;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
