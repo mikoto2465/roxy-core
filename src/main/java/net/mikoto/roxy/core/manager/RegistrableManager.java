@@ -1,8 +1,8 @@
 package net.mikoto.roxy.core.manager;
 
-import net.mikoto.roxy.core.model.AbstractHasAHashMapClass;
+import net.mikoto.yukino.manager.HasAHashMapClass;
 
-public class AbstractRegistrableManager<T> extends AbstractHasAHashMapClass<T> {
+public class RegistrableManager<T> extends HasAHashMapClass<T> {
     public void register(String name , T subject) {
         super.dataMap.put(name, subject);
     }

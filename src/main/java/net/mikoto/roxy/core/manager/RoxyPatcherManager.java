@@ -1,16 +1,13 @@
 package net.mikoto.roxy.core.manager;
 
 import net.mikoto.roxy.core.RoxyPatcher;
-import net.mikoto.roxy.core.model.AbstractHasAHashMapClass;
 import net.mikoto.roxy.core.model.RoxyModel;
 import net.mikoto.roxy.core.observer.Observer;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java.lang.reflect.InvocationTargetException;
 
-@Component("RoxyPatcherManager")
-public class RoxyPatcherManager extends AbstractHasAHashMapClass<RoxyPatcher> {
+public class RoxyPatcherManager extends RegistrableManager<RoxyPatcher> {
     private final RoxyModelManager roxyModelManager;
 
     @Autowired
@@ -27,7 +24,7 @@ public class RoxyPatcherManager extends AbstractHasAHashMapClass<RoxyPatcher> {
     }
 
     public RoxyPatcher createPatcher(String modelName) throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
-        RoxyModel roxyModel = roxyModelManager.createModel(modelName);
+        RoxyModel roxyModel = roxyModelManager.createModel(modelName, null);
         return createPatcher(roxyModel);
     }
 

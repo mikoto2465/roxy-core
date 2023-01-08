@@ -6,11 +6,10 @@ import net.mikoto.roxy.core.observer.Observer;
 import net.mikoto.roxy.core.storage.Storage;
 import net.mikoto.yukino.manager.YukinoModelManager;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class RoxyModelManager extends AbstractRegistrableManager<RoxyModel> {
+public class RoxyModelManager extends RegistrableManager<RoxyModel> {
     private final RoxyModelConfigManager roxyModelConfigManager;
     private final YukinoModelManager yukinoModelManager;
 

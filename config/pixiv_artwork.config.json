@@ -1,0 +1,46 @@
+{
+    "modelName": "PixivArtwork",
+
+    "resourcesStrategy" : {
+        "resourcesStrategyClass": "net.mikoto.roxy.core.strategy.impl.SmoothWeightedObjectStrategy"
+    },
+    "resources": [
+        {
+            "weight": 3,
+            "resourceName": "PixivForwardResource",
+            "resourceStrategy": {
+                "strategyName": "RoxySmoothWeightedObjectAlgorithm",
+                "objectStrategyValues": [
+                    {
+                        "type": "net.mikoto.roxy.core.model.network.resource.CurrentWeightedHttpTarget",
+                        "paramTypes": ["java.lang.String", "java.lang.String", "java.lang.Integer"],
+                        "values": ["http://localhost:8081", "/artwork/getInformation?artworkId=${id}", 1]
+                    }
+                ]
+            }
+        }
+    ],
+
+    "storages": {
+        "local_JSON": {
+            "type": "net.mikoto.roxy.core.storage.impl.LocalJsonStorage",
+            "paramTypes": ["java.lang.String"],
+            "values": ["/storage/"]
+        }
+    },
+
+    "task": {
+        "taskObservers" : [
+            {
+                "type": "net.mikoto.roxy.core.observer.impl.ProgressiveObserver",
+                "paramTypes": ["java.lang.Integer"],
+                "values": [100]
+            }
+        ],
+        "taskStrategy": {
+            "strategyName": "RoxyIntegerIncrementAlgorithm",
+            "strategyValues": [19, 100]
+        },
+        "taskCount": 10
+    }
+}
